@@ -7,14 +7,22 @@
     "build": "rimraf dist && rollup --config --bundleConfigAsCjs"
   },
   "devDependencies": {
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/file-saver": "^2.0.7",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-grid-layout": "^1.3.5",
+    "@types/react-resizable": "^3.0.7",
+    "autoprefixer": "^10.4.19",
+    "less": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-draggable": "^4.4.6",
+    "react-grid-layout": "^1.4.4",
+    "react-resizable": "^3.0.5",
     "rimraf": "^5.0.7",
     "rollup": "^4.18.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "tslib": "^2.6.3"
   }
 }
