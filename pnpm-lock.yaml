@@ -85,6 +85,90 @@ importers:
         specifier: ^2.6.3
         version: 2.6.3
 
+  packages/react-components:
+    devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.6
+        version: 11.1.6(rollup@4.18.0)(tslib@2.6.3)(typescript@5.4.5)
+      '@types/file-saver':
+        specifier: ^2.0.7
+        version: 2.0.7
+      '@types/react':
+        specifier: ^18
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.3.0
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      rimraf:
+        specifier: ^5.0.7
+        version: 5.0.7
+      rollup:
+        specifier: ^4.18.0
+        version: 4.18.0
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+
+  packages/react-hooks:
+    devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.6
+        version: 11.1.6(rollup@4.18.0)(tslib@2.6.3)(typescript@5.4.5)
+      '@types/file-saver':
+        specifier: ^2.0.7
+        version: 2.0.7
+      antd:
+        specifier: ^5.18.2
+        version: 5.18.3(react-dom@18.3.1)(react@18.3.1)
+      exceljs:
+        specifier: ^4.4.0
+        version: 4.4.0
+      file-saver:
+        specifier: ^2.0.5
+        version: 2.0.5
+      rimraf:
+        specifier: ^5.0.7
+        version: 5.0.7
+      rollup:
+        specifier: ^4.18.0
+        version: 4.18.0
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+
+  packages/utils:
+    devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.6
+        version: 11.1.6(rollup@4.18.0)(tslib@2.6.3)(typescript@5.4.5)
+      '@types/file-saver':
+        specifier: ^2.0.7
+        version: 2.0.7
+      antd:
+        specifier: ^5.18.2
+        version: 5.18.3(react-dom@18.3.1)(react@18.3.1)
+      exceljs:
+        specifier: ^4.4.0
+        version: 4.4.0
+      file-saver:
+        specifier: ^2.0.5
+        version: 2.0.5
+      rimraf:
+        specifier: ^5.0.7
+        version: 5.0.7
+      rollup:
+        specifier: ^4.18.0
+        version: 4.18.0
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+
 packages:
 
   /@ampproject/remapping@2.3.0:
@@ -2016,7 +2100,6 @@ packages:
       - date-fns
       - luxon
       - moment
-    dev: false
 
   /aproba@2.0.0:
     resolution: {integrity: sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==}

@@ -1,4 +1,4 @@
-import { ColumnGroupType, ColumnType, ColumnsType } from 'antd/es/table';
+import { ColumnGroupType, ColumnType, ColumnsType, TableProps } from 'antd/es/table';
 import ExcelJS, { Column } from 'exceljs';
 import { saveAs } from 'file-saver';
 
@@ -159,8 +159,8 @@ function traversalAntdTableColumns(columns: ColumnsType) {
 }
 
 interface SaveAsXlsxOptions {
-  columns?: ColumnsType;
-  dataSource?: any[];
+  columns?: TableProps['columns'];
+  dataSource?: TableProps['dataSource'];
   filename?: string;
 }
 
@@ -188,7 +188,7 @@ export const saveAsXlsx = async ({ columns = [], dataSource = [], filename = 'æœ
     } as Partial<Column>;
   });
 
-  worksheet.addRows(dataSource);
+  worksheet.addRows([...dataSource]);
 
   merges.forEach((merge) => worksheet.mergeCells(...merge));
 
