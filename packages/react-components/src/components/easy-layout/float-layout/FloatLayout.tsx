@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { EasyLayoutOption } from '../index';
 import { FloatLayoutItem } from './FloatLayoutItem';
-import './FloatLayout.less';
+import './FloatLayout.css';
 
 export interface FloatLayoutProps {
   layoutList: EasyLayoutOption[];
@@ -40,7 +40,7 @@ export const FloatLayout: React.FC<FloatLayoutProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="easy-layout-float-group">
+    <div ref={containerRef} className="ml-easy-layout-float-group">
       {parsedChildren.map((child, index) => {
         return (
           <FloatLayoutItem

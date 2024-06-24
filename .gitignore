@@ -7,3 +7,5 @@ build/
 .ieda
 
 .rollup.cache
+
+*storybook.log

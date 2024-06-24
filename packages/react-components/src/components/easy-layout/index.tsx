@@ -2,7 +2,7 @@ import React from 'react';
 import { GridLayout } from './grid-layout';
 import { FloatLayout } from './float-layout';
 import { LAYOUT_MARGIN, COLUMNS, CONTAINER_PADDING, ROW_HEIGHT } from './constants';
-import './index.less';
+import './index.css';
 
 export type LayoutType = 'grid' | 'float';
 
@@ -30,13 +30,13 @@ export const EasyLayout: React.FC<EasyLayoutProps> = ({ children, width, layoutL
   const floatLayoutChildren: React.ReactNode[] = [];
 
   layoutList.forEach((layout, index) => {
-    const children_ = (children as React.ReactNode[])[index];
+    const _children = (children as React.ReactNode[])[index];
     if (layout.type === 'float') {
       floatLayoutList.push(layout);
-      floatLayoutChildren.push(children_);
+      floatLayoutChildren.push(_children);
     } else {
       gridLayoutList.push(layout);
-      gridLayoutChildren.push(children_);
+      gridLayoutChildren.push(_children);
     }
   });
 
@@ -51,7 +51,7 @@ export const EasyLayout: React.FC<EasyLayoutProps> = ({ children, width, layoutL
   };
 
   return (
-    <div className="easy-layout-container">
+    <div className="ml-easy-layout">
       <GridLayout layoutList={gridLayoutList} width={width} onLayoutChange={handleLayoutChange}>
         {gridLayoutChildren}
       </GridLayout>

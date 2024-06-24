@@ -4,7 +4,7 @@ import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { calcSize, calcPosition, calcRealSize, calcRealPosition } from '../utils';
 import 'react-resizable/css/styles.css';
 import { EasyLayoutOption } from '../index';
-import './FloatLayoutItem.less';
+import './FloatLayoutItem.css';
 
 export interface FloatLayoutItemProps {
   isResizable?: boolean;
@@ -90,7 +90,7 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
   const content = (
     <div
       ref={nodeRef}
-      className="easy-layout-float-item"
+      className="ml-easy-layout-float-item"
       style={{
         width: layoutValue.width,
         height: layoutValue.height,
@@ -111,7 +111,7 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
           },
         });
       })}
-      {isDraggable && <div className="handle" />}
+      {isDraggable && <div className="ml-easy-layout-handle" />}
     </div>
   );
 
@@ -119,7 +119,7 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
     <Draggable
       disabled={!isDraggable}
       nodeRef={nodeRef}
-      handle=".handle"
+      handle=".ml-easy-layout-handle"
       position={{ x: layoutValue.left, y: layoutValue.top }}
       onStop={handleDragStop}
       onDrag={handleDrag}
