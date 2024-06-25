@@ -1,5 +1,5 @@
 import postcss from 'rollup-plugin-postcss';
-import * as rollup from 'rollup';
+import { rollup, OutputOptions } from 'rollup';
 import typescript from '@rollup/plugin-typescript';
 import { RollupOptions } from 'rollup';
 import babel from '@rollup/plugin-babel';
@@ -27,9 +27,9 @@ async function build() {
     ],
     external: [],
   };
-  const build = await rollup.rollup(config);
+  const build = await rollup(config);
 
-  const outputs: rollup.OutputOptions[] = Array.isArray(config.output) ? config.output : [config.output!];
+  const outputs: OutputOptions[] = Array.isArray(config.output) ? config.output : [config.output!];
 
   await Promise.all(outputs.map((output) => build.write(output)));
 
