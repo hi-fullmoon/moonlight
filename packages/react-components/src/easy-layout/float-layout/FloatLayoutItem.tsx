@@ -49,11 +49,9 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
    * width/height/top/left
    */
   useEffect(() => {
-    const { x: left, y: top } = calcRealPosition(x, y, colWidth, rowHeight);
+    const pos = calcRealPosition(x, y, colWidth, rowHeight);
     const itemSize = calcRealSize(w, h, colWidth, rowHeight);
-    setLayoutValue((state) => {
-      return { ...state, ...itemSize, left, top };
-    });
+    setLayoutValue((state) => ({ ...state, ...itemSize, left: pos.x, top: pos.y }));
   }, [x, y, w, h, colWidth, rowHeight]);
 
   const handleDrag = (e: DraggableEvent, data: DraggableData) => {
@@ -68,8 +66,8 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
     e.preventDefault();
     e.stopPropagation();
 
-    const { x, y } = calcPosition(layoutValue.left, layoutValue.top, colWidth, rowHeight);
-    onChange({ ...layout, x, y });
+    const pos = calcPosition(layoutValue.left, layoutValue.top, colWidth, rowHeight);
+    onChange({ ...layout, x: pos.x, y: pos.y });
   };
 
   const handleResize = (e: React.SyntheticEvent, data: ResizeCallbackData) => {
@@ -81,8 +79,8 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
   };
 
   const handleResizeStop = () => {
-    const { width: w, height: h } = calcSize(layoutValue.width, layoutValue.height, colWidth, rowHeight);
-    onChange({ ...layout, w, h });
+    const size = calcSize(layoutValue.width, layoutValue.height, colWidth, rowHeight);
+    onChange({ ...layout, w: size.width, h: size.height });
   };
 
   if (!layoutValue) return null;
@@ -120,9 +118,12 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
       disabled={!isDraggable}
       nodeRef={nodeRef}
       handle=".ml-easy-layout-handle"
-      position={{ x: layoutValue.left, y: layoutValue.top }}
-      onStop={handleDragStop}
+      position={{
+        x: layoutValue.left,
+        y: layoutValue.top,
+      }}
       onDrag={handleDrag}
+      onStop={handleDragStop}
     >
       {isResizable ? (
         <Resizable

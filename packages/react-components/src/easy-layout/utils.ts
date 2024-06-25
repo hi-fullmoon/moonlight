@@ -33,10 +33,10 @@ export const calcPosition = (
   y: number,
   colWidth: number,
   rowHeight: number,
-  margin: [number, number] = LAYOUT_MARGIN
+  margin: [number, number] = LAYOUT_MARGIN,
 ) => {
-  const posX = round((x - margin[0]) / (colWidth + margin[0]), 2);
-  const posY = round((y - margin[1]) / (rowHeight + margin[1]), 2);
+  const posX = round(x / (colWidth + margin[0]), 2);
+  const posY = round(y / (rowHeight + margin[1]), 2);
   return { x: posX, y: posY };
 };
 
@@ -48,10 +48,10 @@ export const calcRealPosition = (
   y: number,
   colWidth: number,
   rowHeight: number,
-  margin: [number, number] = LAYOUT_MARGIN
+  margin: [number, number] = LAYOUT_MARGIN,
 ) => {
-  const posX = round(x * colWidth + (x + 1) * margin[0], 2);
-  const posY = round(y * rowHeight + (y + 1) * margin[1], 2);
+  const posX = round(x * colWidth + x * margin[0], 2);
+  const posY = round(y * rowHeight + y * margin[1], 2);
   return { x: posX, y: posY };
 };
 
@@ -68,7 +68,7 @@ export const calcSize = (
   h: number,
   colWidth: number,
   rowHeight: number,
-  margin: [number, number] = LAYOUT_MARGIN
+  margin: [number, number] = LAYOUT_MARGIN,
 ): Size => {
   const width = round((w + margin[0]) / (colWidth + margin[0]), 2);
   const height = round((h + margin[1]) / (rowHeight + margin[1]), 2);
@@ -83,7 +83,7 @@ export const calcRealSize = (
   h: number,
   colWidth: number,
   rowHeight: number,
-  margin: [number, number] = LAYOUT_MARGIN
+  margin: [number, number] = LAYOUT_MARGIN,
 ): Size => {
   const width = round(w * colWidth + (w - 1) * margin[0], 2);
   const height = round(h * rowHeight + (h - 1) * margin[1], 2);

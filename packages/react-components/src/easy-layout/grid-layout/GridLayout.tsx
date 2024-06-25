@@ -29,6 +29,7 @@ export const GridLayout: React.FC<GridLayoutProps> = ({
 
   return (
     <ReactGridLayout
+      className="ml-easy-layout-grid-group"
       width={width}
       containerPadding={CONTAINER_PADDING}
       margin={LAYOUT_MARGIN}

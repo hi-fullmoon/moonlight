@@ -1,9 +1,9 @@
 /**
  * 容器 padding
- * 参考 react-grid-layout containerPading 属性
+ * 参考 react-grid-layout containerPadding 属性
  * 链接：https://github.com/react-grid-layout/react-grid-layout
  */
-export const CONTAINER_PADDING: [number, number] = [4, 4];
+export const CONTAINER_PADDING: [number, number] = [0, 0];
 
 /**
  * 布局 margin
