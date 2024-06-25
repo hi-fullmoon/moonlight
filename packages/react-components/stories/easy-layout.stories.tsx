@@ -12,6 +12,7 @@ export default meta;
 export const Demo = () => {
   const items: EasyLayoutOption[] = [
     {
+      type: 'grid',
       i: '1',
       x: 0,
       y: 0,

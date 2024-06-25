@@ -31,12 +31,12 @@ export const EasyLayout: React.FC<EasyLayoutProps> = ({ children, width, layoutL
 
   layoutList.forEach((layout, index) => {
     const _children = (children as React.ReactNode[])[index];
-    if (layout.type === 'float') {
-      floatLayoutList.push(layout);
-      floatLayoutChildren.push(_children);
-    } else {
+    if (layout.type === 'grid') {
       gridLayoutList.push(layout);
       gridLayoutChildren.push(_children);
+    } else {
+      floatLayoutList.push(layout);
+      floatLayoutChildren.push(_children);
     }
   });
 
