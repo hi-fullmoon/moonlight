@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { DragGuideLinesContext } from './context';
 import { resolveHorizontalLines, resolveVerticalLines } from './utils';
 
@@ -24,9 +24,9 @@ export interface DragGuideLinesProviderProps {
 
 export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({ lineColor = '#eb4c42', children }) => {
   const linesContainerRef = useRef<HTMLDivElement>(null!);
-  const layoutsRef = useRef<Record<string | string, LayoutOption>>({});
+  const layoutsRef = useRef<Record<number | string, LayoutOption>>({});
 
-  const setLayouts = (layouts: Record<string | string, LayoutOption>) => {
+  const setLayouts = (layouts: Record<number | string, LayoutOption>) => {
     layoutsRef.current = {
       ...layoutsRef.current,
       ...layouts,
@@ -77,7 +77,7 @@ export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({ 
     linesContainerRef.current.innerHTML = '';
 
     let linesHtmlStr = '';
-    const commonStyleStr = `z-index: 1000; position: absolute; background-color: ${lineColor};`;
+    const commonStyleStr = `z-index: 1001; position: absolute; background-color: ${lineColor};`;
 
     vLines.forEach((line) => {
       const { top, left, length } = line;

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import 'react-resizable/css/styles.css';
 import { EasyLayoutOption } from '../index';
 import './FloatLayoutItem.css';
+import { useDragGuideLines } from '../../drag-guide-lines';
 
 export interface FloatLayoutItemProps {
   isResizable?: boolean;
@@ -40,11 +41,13 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
   rowHeight,
   onChange,
 }) => {
-  const { x, y, w, h, z } = layout;
+  const { i, x, y, w, h, z } = layout;
 
   const [zValue, setZValue] = useState(z);
   const [layoutValue, setLayoutValue] = useState<LayoutValue>(defaultLayoutValue);
   const nodeRef = useRef(null);
+
+  const { onDrag: _onDrag, onDragStop: _onDragStop } = useDragGuideLines();
 
   /**
    * 计算真实的布局信息
@@ -60,7 +63,9 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
     e.preventDefault();
     e.stopPropagation();
 
-    setZValue(10000);
+    setZValue(1000);
+
+    _onDrag(i, { w: layoutValue.width, h: layoutValue.height, x: data.x, y: data.y });
 
     const newValue = { ...layoutValue, top: data.y, left: data.x };
     setLayoutValue(newValue);
@@ -71,6 +76,8 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
     e.stopPropagation();
 
     setZValue(z);
+
+    _onDragStop();
 
     const pos = calcPosition(layoutValue.left, layoutValue.top, colWidth, rowHeight);
     onChange({ ...layout, x: pos.x, y: pos.y });

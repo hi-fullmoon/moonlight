@@ -52,7 +52,7 @@ export const Demo = () => {
   };
 
   return (
-    <EasyLayout width={1000} layoutList={items} onLayoutChange={handleLayoutChange}>
+    <EasyLayout style={{ background: 'gray' }} width={1000} layoutList={items} onLayoutChange={handleLayoutChange}>
       {items.map((item) => {
         return <Card key={item.i}>{JSON.stringify(item)}</Card>;
       })}
