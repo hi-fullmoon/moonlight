@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Resizable, ResizeCallbackData } from 'react-resizable';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { calcSize, calcPosition, calcRealSize, calcRealPosition } from '../utils';
+import classNames from 'classnames';
 import 'react-resizable/css/styles.css';
 import { EasyLayoutOption } from '../index';
 import './FloatLayoutItem.css';
@@ -39,10 +40,11 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
   rowHeight,
   onChange,
 }) => {
-  const nodeRef = useRef(null);
-  const [layoutValue, setLayoutValue] = useState<LayoutValue>(defaultLayoutValue);
-
   const { x, y, w, h, z } = layout;
+
+  const [zValue, setZValue] = useState(z);
+  const [layoutValue, setLayoutValue] = useState<LayoutValue>(defaultLayoutValue);
+  const nodeRef = useRef(null);
 
   /**
    * 计算真实的布局信息
@@ -58,6 +60,8 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
     e.preventDefault();
     e.stopPropagation();
 
+    setZValue(10000);
+
     const newValue = { ...layoutValue, top: data.y, left: data.x };
     setLayoutValue(newValue);
   };
@@ -65,6 +69,8 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
   const handleDragStop = (e: DraggableEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    setZValue(z);
 
     const pos = calcPosition(layoutValue.left, layoutValue.top, colWidth, rowHeight);
     onChange({ ...layout, x: pos.x, y: pos.y });
@@ -85,39 +91,26 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
 
   if (!layoutValue) return null;
 
-  const content = (
-    <div
-      ref={nodeRef}
-      className="ml-easy-layout-float-item"
-      style={{
-        width: layoutValue.width,
-        height: layoutValue.height,
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        zIndex: z,
-      }}
-    >
-      {React.Children.map(children, (child) => {
-        if (!React.isValidElement(child)) return null;
-        return React.cloneElement(child, {
-          ...child.props,
-          style: {
-            ...child.props.style,
-            width: '100%',
-            height: '100%',
-          },
-        });
-      })}
-      {isDraggable && <div className="ml-easy-layout-handle" />}
-    </div>
-  );
+  const child = React.Children.only(children) as React.ReactElement;
+  const newChild = React.cloneElement(child, {
+    ref: nodeRef,
+    className: classNames('react-float-item', child.props.className),
+    style: {
+      ...child.props.style,
+      width: layoutValue.width,
+      height: layoutValue.height,
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      zIndex: zValue,
+    },
+  });
 
   return (
     <Draggable
       disabled={!isDraggable}
       nodeRef={nodeRef}
-      handle=".ml-easy-layout-handle"
+      handle=".react-float-item"
       position={{
         x: layoutValue.left,
         y: layoutValue.top,
@@ -133,10 +126,10 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
           onResize={handleResize}
           onResizeStop={handleResizeStop}
         >
-          {content}
+          {newChild}
         </Resizable>
       ) : (
-        content
+        newChild
       )}
     </Draggable>
   );

@@ -40,7 +40,7 @@ export const FloatLayout: React.FC<FloatLayoutProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="ml-easy-layout-float-group">
+    <div ref={containerRef} className="react-float-layout">
       {parsedChildren.map((child, index) => {
         return (
           <FloatLayoutItem
