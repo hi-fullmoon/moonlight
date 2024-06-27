@@ -47,7 +47,7 @@ class PlotText extends PlotPoint {
    */
   createOverlay() {
     const element = document.createElement('div');
-    element.classList.add('plot-text-popup');
+    element.classList.add('ml-plot-text-popup');
 
     this.textarea = this.createTextarea();
     element.appendChild(this.textarea);

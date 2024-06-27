@@ -40,8 +40,7 @@ class PlotPoint extends PlotBase {
    * 初始化控制点
    */
   initControlPoints() {
-    const center = (this.feature.getGeometry() as Point).getCoordinates();
-    this.centerPoint = center;
+    this.centerPoint = (this.feature.getGeometry() as Point).getCoordinates();
   }
 
   activate() {

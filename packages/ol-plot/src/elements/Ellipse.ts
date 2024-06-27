@@ -1,5 +1,5 @@
 import { Point, Polygon } from 'ol/geom';
-import { Style, Stroke, Fill } from 'ol/style';
+import { Style, Stroke } from 'ol/style';
 import PlotBase, { AnchorPointOption, PlotBaseOptions } from './PlotBase';
 import { calcDistance, genEllipse } from './utils';
 
