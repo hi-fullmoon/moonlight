@@ -38,7 +38,6 @@ class Remove {
     this.elements.forEach((element, index) => {
       const { type, centerPoint } = element;
 
-      console.log(type, centerPoint, 'ppp');
       if (!centerPoint || centerPoint.length === 0) return;
 
       const dom = document.createElement('div');

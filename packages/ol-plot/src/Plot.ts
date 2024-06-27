@@ -313,7 +313,6 @@ class Plot {
     }
 
     const feature = this.map?.forEachFeatureAtPixel(e.pixel, (feature) => feature);
-    console.log(feature, 'feature');
     if (feature) {
       this.activate(feature as Feature);
     } else {
@@ -344,8 +343,6 @@ class Plot {
     if (feature === this.activeElement?.getFeature()) return;
 
     const element = this.elements.find((el) => el.getFeature() === feature);
-
-    console.log(element, 'element');
 
     if (element) {
       EventBus.trigger('selected', element);
