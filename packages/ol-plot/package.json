@@ -1,14 +1,17 @@
 {
   "name": "@moonlight/ol-plot",
-  "private": true,
   "version": "0.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsx ../../scripts/build-rc.ts"
+    "build": "rimraf dist && tsx ../../scripts/build.ts"
   },
   "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "ol": "^9.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "rimraf": "^5.0.7"
   },
   "peerDependencies": {

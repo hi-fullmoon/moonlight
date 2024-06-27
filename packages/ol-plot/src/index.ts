@@ -1,3 +1,4 @@
-import MLPlot from './MLPlot';
+import Plot from './Plot';
+import './index.css';
 
-export { MLPlot };
+export { Plot as MLPlot };

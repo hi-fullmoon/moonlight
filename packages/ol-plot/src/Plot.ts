@@ -19,7 +19,7 @@ interface DrawingOptions {
   icon?: string;
 }
 
-interface PlotLayerOptions {
+export interface PlotConstructorOptions {
   /**
    * ol map
    */
@@ -31,7 +31,7 @@ interface PlotLayerOptions {
   mode?: 'edit' | 'view';
 }
 
-class MLPlot {
+class Plot {
   /**
    * 图标映射表
    */
@@ -41,7 +41,7 @@ class MLPlot {
    * 注册图标
    */
   static registerIcon(icons: { [key: string]: any }) {
-    MLPlot.iconMap = { ...MLPlot.iconMap, ...icons };
+    Plot.iconMap = { ...Plot.iconMap, ...icons };
   }
 
   /**
@@ -57,7 +57,7 @@ class MLPlot {
   /**
    * 当前图层实例
    */
-  layer: VectorLayer<any> | null;
+  layer: VectorLayer<Feature> | null;
 
   /**
    * 图层上的元素
@@ -84,7 +84,7 @@ class MLPlot {
    */
   activeElement: PlotBase | null;
 
-  constructor(options: PlotLayerOptions) {
+  constructor(options: PlotConstructorOptions) {
     const { map, mode = 'view' } = options;
 
     this.activeElement = null;
@@ -214,11 +214,11 @@ class MLPlot {
    * 清空图层数据
    */
   clear() {
-    // this.elements.forEach((element) => {
-    //   element.destroy();
-    // });
-    // this.elements = [];
-    // this.layer?.getSource()?.clear();
+    this.elements.forEach((element) => {
+      element.destroy();
+    });
+    this.elements = [];
+    this.layer?.getSource()?.clear();
     this.clearNoEvent();
     EventBus.trigger('clear');
   }
@@ -237,7 +237,7 @@ class MLPlot {
     const type = feature.get('type') as PlotType;
     const opts = {
       feature,
-      iconMap: MLPlot.iconMap,
+      iconMap: Plot.iconMap,
       map: this.map as Map,
     };
     return createElement(type, opts);
@@ -313,6 +313,7 @@ class MLPlot {
     }
 
     const feature = this.map?.forEachFeatureAtPixel(e.pixel, (feature) => feature);
+    console.log(feature, 'feature');
     if (feature) {
       this.activate(feature as Feature);
     } else {
@@ -343,6 +344,9 @@ class MLPlot {
     if (feature === this.activeElement?.getFeature()) return;
 
     const element = this.elements.find((el) => el.getFeature() === feature);
+
+    console.log(element, 'element');
+
     if (element) {
       EventBus.trigger('selected', element);
 
@@ -367,4 +371,4 @@ class MLPlot {
   }
 }
 
-export default MLPlot;
+export default Plot;

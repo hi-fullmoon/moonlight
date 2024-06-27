@@ -2,6 +2,7 @@ import { OutputOptions, rollup } from 'rollup';
 import typescript from '@rollup/plugin-typescript';
 import { RollupOptions } from 'rollup';
 import babel from '@rollup/plugin-babel';
+import postcss from 'rollup-plugin-postcss';
 
 async function build() {
   const config: RollupOptions = {
@@ -15,6 +16,9 @@ async function build() {
       },
     ],
     plugins: [
+      postcss({
+        extract: true,
+      }),
       typescript(),
       babel({
         babelHelpers: 'runtime',
