@@ -7,14 +7,20 @@
     "build": "rimraf dist && tsx ../../scripts/build-rc.ts"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@types/file-saver": "^2.0.7",
     "antd": "^5.18.2",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
+    "pizzip": "^3.1.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rimraf": "^5.0.7"
+  },
+  "peerDependencies": {
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
+    "pizzip": "^3.1.7"
   }
 }

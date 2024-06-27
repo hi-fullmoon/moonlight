@@ -28,14 +28,14 @@ export const GridLayout: React.FC<GridLayoutProps> = ({
   const { onDrag: _onDrag, onDragStop: _onDragStop } = useDragGuideLines();
 
   const handleDrag: ItemCallback = (layout, oldItem, newItem) => {
-    const { i, x, y, w, h } = newItem;
-    const pos = calcRealPosition(x, y, colWidth, ROW_HEIGHT);
-    const size = calcRealSize(w, h, colWidth, ROW_HEIGHT);
-    _onDrag(i, { x: pos.x, y: pos.y, w: size.width, h: size.height });
+    // const { i, x, y, w, h } = newItem;
+    // const pos = calcRealPosition(x, y, colWidth, ROW_HEIGHT);
+    // const size = calcRealSize(w, h, colWidth, ROW_HEIGHT);
+    // _onDrag(i, { x: pos.x, y: pos.y, w: size.width, h: size.height });
   };
 
   const handleDragStop: ItemCallback = () => {
-    _onDragStop();
+    // _onDragStop();
   };
 
   const handleLayoutChange = (currentLayout: Layout[]) => {

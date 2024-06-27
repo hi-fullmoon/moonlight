@@ -18,22 +18,29 @@ export interface LayoutOption {
 }
 
 export interface DragGuideLinesProviderProps {
+  disabled?: boolean;
   lineColor?: string;
   children?: React.ReactNode;
 }
 
-export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({ lineColor = '#eb4c42', children }) => {
+export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({
+  disabled = false,
+  lineColor = '#eb4c42',
+  children,
+}) => {
   const linesContainerRef = useRef<HTMLDivElement>(null!);
   const layoutsRef = useRef<Record<number | string, LayoutOption>>({});
 
   const setLayouts = (layouts: Record<number | string, LayoutOption>) => {
-    layoutsRef.current = {
-      ...layoutsRef.current,
-      ...layouts,
-    };
+    if (disabled) return;
+    layoutsRef.current = { ...layouts };
   };
 
   const handleDrag = (id: string | number, layout: LayoutOption) => {
+    if (disabled) {
+      return layout;
+    }
+
     layoutsRef.current[id] = layout;
 
     const vLines: LineOption[] = [];
@@ -70,6 +77,7 @@ export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({ 
   };
 
   const handleDragStop = () => {
+    if (disabled) return;
     linesContainerRef.current.innerHTML = '';
   };
 
@@ -77,7 +85,7 @@ export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({ 
     linesContainerRef.current.innerHTML = '';
 
     let linesHtmlStr = '';
-    const commonStyleStr = `z-index: 1001; position: absolute; background-color: ${lineColor};`;
+    const commonStyleStr = `z-index: 10001; position: absolute; background-color: ${lineColor};`;
 
     vLines.forEach((line) => {
       const { top, left, length } = line;
@@ -103,7 +111,7 @@ export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({ 
       }}
     >
       {children}
-      <div style={{ userSelect: 'none', pointerEvents: 'none' }} ref={linesContainerRef} />
+      {!disabled && <div style={{ userSelect: 'none', pointerEvents: 'none' }} ref={linesContainerRef} />}
     </DragGuideLinesContext.Provider>
   );
 };

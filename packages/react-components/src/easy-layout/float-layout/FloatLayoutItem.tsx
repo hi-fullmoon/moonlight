@@ -51,7 +51,7 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
 
   /**
    * 计算真实的布局信息
-   * width/height/top/left
+   * width、height、top、left
    */
   useEffect(() => {
     const pos = calcRealPosition(x, y, colWidth, rowHeight);
@@ -63,12 +63,10 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
     e.preventDefault();
     e.stopPropagation();
 
-    setZValue(1000);
+    setZValue(10000);
 
-    _onDrag(i, { w: layoutValue.width, h: layoutValue.height, x: data.x, y: data.y });
-
-    const newValue = { ...layoutValue, top: data.y, left: data.x };
-    setLayoutValue(newValue);
+    const newLayout = _onDrag(i, { w: layoutValue.width, h: layoutValue.height, x: data.x, y: data.y });
+    setLayoutValue({ ...layoutValue, top: newLayout.y, left: newLayout.x });
   };
 
   const handleDragStop = (e: DraggableEvent) => {

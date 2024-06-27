@@ -1,6 +1,7 @@
 import { ColumnGroupType, ColumnType, ColumnsType, TableProps } from 'antd/es/table';
 import ExcelJS, { Column } from 'exceljs';
 import { saveAs } from 'file-saver';
+import PizZip from 'pizzip';
 
 function isGroupColumn(column: ColumnsType[number]): column is ColumnGroupType<any> {
   return (column as ColumnGroupType<any>).children && (column as ColumnGroupType<any>).children.length > 0;
@@ -136,7 +137,7 @@ function traversalAntdTableColumns(columns: ColumnsType) {
     }
   }
 
-  // 水平方向的单元格合并
+  // 表头水平方向的单元格合并
   widthMap.forEach((value, k) => {
     if (value > 1) {
       const r = rMap.get(k) as number;
@@ -146,7 +147,7 @@ function traversalAntdTableColumns(columns: ColumnsType) {
     }
   });
 
-  // 竖直方向的单元格合并
+  // 表头竖直方向的单元格合并
   leafColumns.forEach((column) => {
     const r = rMap.get(column) as number;
     const c = cMap.get(column) as number;
@@ -158,13 +159,7 @@ function traversalAntdTableColumns(columns: ColumnsType) {
   return { headerData, merges };
 }
 
-interface SaveAsXlsxOptions {
-  columns?: TableProps['columns'];
-  dataSource?: TableProps['dataSource'];
-  filename?: string;
-}
-
-export const saveAsXlsx = async ({ columns = [], dataSource = [], filename = '未命名.xlsx' }: SaveAsXlsxOptions) => {
+export async function antdTableToBuffer(columns: TableProps['columns'], dataSource: TableProps['dataSource']) {
   if (!columns || columns.length === 0) {
     throw new Error('The columns parameter cannot be empty.');
   }
@@ -192,8 +187,42 @@ export const saveAsXlsx = async ({ columns = [], dataSource = [], filename = '�
 
   merges.forEach((merge) => worksheet.mergeCells(...merge));
 
-  const buffer = await workbook.xlsx.writeBuffer();
-  const blob = new Blob([buffer], { type: 'application/octet-stream' });
+  return await workbook.xlsx.writeBuffer();
+}
 
-  saveAs(blob, filename.endsWith('.xlsx') ? filename : `${filename}.xlsx`);
-};
+interface SaveAsXlsxOptions {
+  columns?: TableProps['columns'];
+  dataSource?: TableProps['dataSource'];
+  filename?: string;
+}
+
+export async function saveAsXlsx({ columns = [], dataSource = [], filename = '未命名.xlsx' }: SaveAsXlsxOptions) {
+  try {
+    const buffer = await antdTableToBuffer(columns, dataSource);
+    const blob = new Blob([buffer], { type: 'application/octet-stream' });
+    saveAs(blob, filename.endsWith('.xlsx') ? filename : `${filename}.xlsx`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+interface SaveAsZipOptions {
+  filename?: string;
+  items: SaveAsXlsxOptions[];
+}
+
+export async function saveAsZip({ filename, items }: SaveAsZipOptions) {
+  try {
+    const resultZip = new PizZip();
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const { filename, columns = [], dataSource = [] } = item;
+      const buffer = await antdTableToBuffer(columns, dataSource);
+      resultZip.file(filename.endsWith('.xlsx') ? filename : `${filename}.xlsx`, buffer);
+    }
+    const blobData = resultZip.generate({ type: 'blob' });
+    saveAs(blobData, filename.endsWith('.zip') ? filename : filename + '.zip');
+  } catch (error) {
+    console.error(error);
+  }
+}

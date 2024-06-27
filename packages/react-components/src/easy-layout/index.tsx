@@ -5,6 +5,7 @@ import { LAYOUT_MARGIN, COLUMNS, CONTAINER_PADDING, ROW_HEIGHT } from './constan
 import { DragGuideLinesProvider, useDragGuideLines } from '../drag-guide-lines';
 import { calcRealPosition, calcRealSize } from './utils';
 import { LayoutOption } from '../drag-guide-lines/provider';
+import classNames from 'classnames';
 import './index.css';
 
 export type LayoutType = 'grid' | 'float';
@@ -21,19 +22,26 @@ export interface EasyLayoutOption {
 
 export interface EasyLayoutProps {
   style?: React.CSSProperties;
+  className?: string;
   width: number;
-  layoutList: EasyLayoutOption[];
+  layouts: EasyLayoutOption[];
   onLayoutChange?: (layouts: EasyLayoutOption[]) => void;
+  enableDragGuideLines?: boolean;
   children?: React.ReactNode;
 }
 
-export const _EasyLayout: React.FC<EasyLayoutProps> = ({ children, width, layoutList, onLayoutChange }) => {
+export const _EasyLayout: React.FC<Omit<EasyLayoutProps, 'style' | 'className' | 'enableDragGuideLines'>> = ({
+  children,
+  width,
+  layouts,
+  onLayoutChange,
+}) => {
   const gridLayoutList: EasyLayoutOption[] = [];
   const floatLayoutList: EasyLayoutOption[] = [];
   const gridLayoutChildren: React.ReactNode[] = [];
   const floatLayoutChildren: React.ReactNode[] = [];
 
-  layoutList.forEach((layout, index) => {
+  layouts.forEach((layout, index) => {
     const _children = (children as React.ReactNode[])[index];
     if (layout.type === 'grid') {
       gridLayoutList.push(layout);
@@ -50,17 +58,17 @@ export const _EasyLayout: React.FC<EasyLayoutProps> = ({ children, width, layout
 
   useEffect(() => {
     let result: Record<string, LayoutOption> = {};
-    layoutList.forEach((item) => {
+    layouts.forEach((item) => {
       const { i, x, y, w, h } = item;
       const pos = calcRealPosition(x, y, colWidth, ROW_HEIGHT);
       const size = calcRealSize(w, h, colWidth, ROW_HEIGHT);
       result[i] = { w: size.width, h: size.height, x: pos.x, y: pos.y };
     });
     setLayouts(result);
-  }, [layoutList]);
+  }, [layouts]);
 
   const handleLayoutChange = (layouts: EasyLayoutOption[]) => {
-    const newLayoutList = layoutList.map((layout) => {
+    const newLayoutList = layouts.map((layout) => {
       const current = layouts.find((l) => l.i === layout.i);
       return current || layout;
     });
@@ -84,10 +92,10 @@ export const _EasyLayout: React.FC<EasyLayoutProps> = ({ children, width, layout
   );
 };
 
-export const EasyLayout: React.FC<EasyLayoutProps> = ({ style, ...rest }) => {
+export const EasyLayout: React.FC<EasyLayoutProps> = ({ style, className, enableDragGuideLines = true, ...rest }) => {
   return (
-    <div style={style} className="ml-easy-layout">
-      <DragGuideLinesProvider>
+    <div style={style} className={classNames('ml-easy-layout', className)}>
+      <DragGuideLinesProvider disabled={!enableDragGuideLines}>
         <_EasyLayout {...rest} />
       </DragGuideLinesProvider>
     </div>

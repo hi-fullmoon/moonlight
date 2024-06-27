@@ -25,7 +25,7 @@ const layouts: EasyLayoutOption[] = [
     x: 20,
     y: 0,
     w: 20,
-    h: 30,
+    h: 10,
   },
   {
     type: 'grid',
@@ -41,7 +41,7 @@ const layouts: EasyLayoutOption[] = [
     x: 0,
     y: 0,
     w: 20,
-    h: 30,
+    h: 10,
   },
 ];
 export const Demo = () => {
@@ -52,7 +52,7 @@ export const Demo = () => {
   };
 
   return (
-    <EasyLayout style={{ background: 'gray' }} width={1000} layoutList={items} onLayoutChange={handleLayoutChange}>
+    <EasyLayout style={{ background: 'gray' }} width={1000} layouts={items} onLayoutChange={handleLayoutChange}>
       {items.map((item) => {
         return <Card key={item.i}>{JSON.stringify(item)}</Card>;
       })}
