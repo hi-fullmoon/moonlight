@@ -17,5 +17,5 @@
   },
   "peerDependencies": {
     "ol": "^9.2.4"
-  },
+  }
 }
