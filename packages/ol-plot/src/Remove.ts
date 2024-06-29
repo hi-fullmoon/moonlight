@@ -2,10 +2,10 @@
  * 删除类
  */
 
-import { Map, Overlay } from 'ol';
+import { Feature, Map, Overlay } from 'ol';
 import VectorLayer from 'ol/layer/Vector';
 import PlotBase from './elements/PlotBase';
-import EventBus from './EventBus';
+import EventBus from './EventEmitter';
 
 interface RemoveOptions {
   map: Map;
@@ -16,7 +16,7 @@ interface RemoveOptions {
 class Remove {
   map: Map | null;
 
-  layer: VectorLayer<any>;
+  layer: VectorLayer<Feature>;
 
   elements: PlotBase[];
 
@@ -32,7 +32,7 @@ class Remove {
   }
 
   /**
-   * 生成删除图表
+   * 生成删除图标
    */
   genRemoveIcons() {
     this.elements.forEach((element, index) => {
@@ -41,7 +41,7 @@ class Remove {
       if (!centerPoint || centerPoint.length === 0) return;
 
       const dom = document.createElement('div');
-      // dom.classList.add('plot-delete-icon');
+      dom.classList.add('ml-plot-delete-icon');
       dom.style.width = 15 + 'px';
       dom.style.height = 15 + 'px';
       dom.style.backgroundColor = 'red';
@@ -122,7 +122,7 @@ class Remove {
 
     this.elements.splice(index, 1);
 
-    EventBus.trigger('removed', index);
+    EventBus.emit('removed', index);
 
     // 从图层上删除
     this.layer.getSource()?.removeFeature(element.feature);

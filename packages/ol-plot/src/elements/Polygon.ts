@@ -17,7 +17,7 @@ class PlotPolygon extends PlotBase {
   initFeatureStyle() {
     const style = new Style({
       stroke: new Stroke({
-        width: 3,
+        width: 2,
         color: 'blue',
       }),
     });

@@ -7,7 +7,7 @@ class EventEmitter {
     this.events = {};
   }
 
-  trigger(type: PlotEvent, args?: any) {
+  emit(type: PlotEvent, args?: any) {
     const listeners = this.events[type];
     if (listeners) {
       listeners.forEach((listener) => {

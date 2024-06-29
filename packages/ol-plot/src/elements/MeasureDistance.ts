@@ -90,7 +90,7 @@ class PlotMeasureDistance extends PlotLine {
     let styles = [
       new Style({
         stroke: new Stroke({
-          width: 3,
+          width: 2,
           color: 'blue',
         }),
       }),

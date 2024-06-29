@@ -2,15 +2,15 @@
  * 绘制类
  */
 
-import { Map, MapBrowserEvent } from 'ol';
+import { Feature, Map, MapBrowserEvent } from 'ol';
 import VectorLayer from 'ol/layer/Vector';
 import PlotBase, { AnchorPointOption } from './elements/PlotBase';
-import EventBus from './EventBus';
+import EventBus from './EventEmitter';
 import { PlotType } from './typings';
 
 export interface DrawOptions {
   map: Map;
-  layer: VectorLayer<any>;
+  layer: VectorLayer<Feature>;
 }
 
 class Draw {
@@ -22,7 +22,7 @@ class Draw {
   /**
    * ol layer
    */
-  layer: VectorLayer<any> | null;
+  layer: VectorLayer<Feature> | null;
 
   /**
    * 当前绘制的元素
@@ -63,7 +63,7 @@ class Draw {
    * 绘制结束
    */
   close(signal: boolean = true) {
-    if (signal) EventBus.trigger('drawend', this.element);
+    if (signal) EventBus.emit('drawend', this.element);
 
     this.unBindEvents();
 

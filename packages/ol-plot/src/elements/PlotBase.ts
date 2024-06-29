@@ -62,7 +62,7 @@ abstract class PlotBase {
    */
   centerPoint: number[];
 
-  constructor(options: PlotBaseOptions) {
+  protected constructor(options: PlotBaseOptions) {
     const { type, feature } = options;
 
     this.type = type;

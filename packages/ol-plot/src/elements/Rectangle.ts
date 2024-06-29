@@ -17,7 +17,10 @@ class PlotRectRangle extends PlotBase {
 
   initFeatureStyle() {
     const style = new Style({
-      stroke: new Stroke({ width: 3, color: 'blue' }),
+      stroke: new Stroke({
+        width: 2,
+        color: 'blue',
+      }),
     });
     this.feature.setStyle(style);
   }

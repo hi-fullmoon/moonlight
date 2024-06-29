@@ -5,7 +5,7 @@
 import { Feature, Map, MapBrowserEvent, Overlay } from 'ol';
 import { ANCHOR_POINT_ID_PREFIX, CENTER_POINT_ID } from './constants';
 import PlotBase, { AnchorPointOption } from './elements/PlotBase';
-import EventBus from './EventBus';
+import EventBus from './EventEmitter';
 
 interface PointRecord {
   id: string;
@@ -141,11 +141,8 @@ class Modify {
   removeControlPoints() {
     for (let i = 0; i < this.overlays.length; i++) {
       const overlay = this.overlays[i];
-
       const element = overlay.getElement() as HTMLDivElement;
-
       element.removeEventListener('mousedown', this.handleAnchorPointMouseDown);
-
       this.map.removeOverlay(this.overlays[i]);
     }
 
@@ -196,7 +193,7 @@ class Modify {
 
     this.pointRecord = null;
 
-    EventBus.trigger('modified', this.element);
+    EventBus.emit('modified', this.element);
 
     this.map.getViewport().removeEventListener('mouseup', this.handleViewportMouseUp);
   };
@@ -225,7 +222,7 @@ class Modify {
 
     target.removeEventListener('mouseup', this.handleCenterPointMouseUp);
 
-    EventBus.trigger('modified', this.element);
+    EventBus.emit('modified', this.element);
   };
 
   /**

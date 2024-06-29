@@ -69,7 +69,7 @@ export const formatArea = (area: number) => {
  * 格式化距离单位
  */
 export const formatLength = (length: number) => {
-  let output;
+  let output: string;
   if (length > 100) {
     output = Math.round((length / 1000) * 100) / 100 + ' km';
   } else {

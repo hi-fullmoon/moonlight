@@ -8,6 +8,7 @@ import 'ol/ol.css';
 import * as interaction from 'ol/interaction';
 import { PlotType } from '../src/typings';
 import { MLPlot } from '../src';
+import data from './data';
 import '../src/index.css';
 
 const meta = {
@@ -38,12 +39,11 @@ export const Demo = () => {
     });
 
     plotRef.current = new MLPlot({ map, mode: 'edit' });
+    plotRef.current.initData(data);
     map.addLayer(plotRef.current.getLayer()!);
   }, []);
 
   const handleDrawStart = (type: PlotType) => {
-    plotRef.current?.stopRemoving();
-
     plotRef.current?.stopDrawing();
     plotRef.current?.startDrawing(type);
   };
@@ -57,7 +57,7 @@ export const Demo = () => {
   };
 
   const getData = () => {
-    console.log(plotRef.current?.getData());
+    console.log(JSON.stringify(plotRef.current?.getData()));
   };
 
   return (

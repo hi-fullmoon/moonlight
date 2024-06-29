@@ -12,7 +12,7 @@ import Draw from './Draw';
 import Modify from './Modify';
 import Remove from './Remove';
 import { PlotEvent, PlotType } from './typings';
-import EventBus from './EventBus';
+import EventBus from './EventEmitter';
 import { getGeomByPlotType, serialize } from './utils';
 
 interface DrawingOptions {
@@ -130,9 +130,12 @@ class Plot {
 
     feature.setGeometry(getGeomByPlotType(plotType));
 
+    this.stopRemoving();
+    this.modify?.removeControlPoints();
+
     const element = this.createElement(feature) as PlotBase;
     this.elements.push(element);
-    this.draw.open(element);
+    this.draw?.open(element);
   }
 
   /**
@@ -162,10 +165,9 @@ class Plot {
   }
 
   clearNoEvent() {
+    this.modify?.removeControlPoints();
     this.remove?.destroy();
-    this.elements.forEach((element) => {
-      element.destroy();
-    });
+    this.elements.forEach((element) => element.destroy());
     this.elements = [];
     this.layer?.getSource()?.clear();
   }
@@ -214,13 +216,8 @@ class Plot {
    * 清空图层数据
    */
   clear() {
-    this.elements.forEach((element) => {
-      element.destroy();
-    });
-    this.elements = [];
-    this.layer?.getSource()?.clear();
     this.clearNoEvent();
-    EventBus.trigger('clear');
+    EventBus.emit('clear');
   }
 
   /**
@@ -270,9 +267,7 @@ class Plot {
 
     this.unbindMapEvents();
 
-    this.elements.forEach((element) => {
-      element.destroy();
-    });
+    this.elements.forEach((element) => element.destroy());
     this.elements = [];
 
     this.draw?.destroy();
@@ -313,6 +308,7 @@ class Plot {
     }
 
     const feature = this.map?.forEachFeatureAtPixel(e.pixel, (feature) => feature);
+    this.stopRemoving();
     if (feature) {
       this.activate(feature as Feature);
     } else {
@@ -327,7 +323,6 @@ class Plot {
     if (this.draw?.drawing) return;
 
     const feature = this.map?.forEachFeatureAtPixel(e.pixel, (feature) => feature);
-
     if (feature) {
       if (this.map) this.map.getViewport().style.cursor = 'pointer';
     } else {
@@ -343,9 +338,8 @@ class Plot {
     if (feature === this.activeElement?.getFeature()) return;
 
     const element = this.elements.find((el) => el.getFeature() === feature);
-
     if (element) {
-      EventBus.trigger('selected', element);
+      EventBus.emit('selected', element);
 
       this.deactivate();
       this.activeElement = element;
@@ -363,7 +357,6 @@ class Plot {
 
     this.activeElement.deactivate();
     this.activeElement = null;
-
     this.modify!.setElement(null);
   }
 }

@@ -3,10 +3,10 @@ import { Resizable, ResizeCallbackData } from 'react-resizable';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { calcSize, calcPosition, calcRealSize, calcRealPosition } from '../utils';
 import classNames from 'classnames';
-import 'react-resizable/css/styles.css';
-import { EasyLayoutOption } from '../index';
-import './FloatLayoutItem.css';
 import { useDragGuideLines } from '../../drag-guide-lines';
+import { EasyLayoutOption } from '../index';
+import 'react-resizable/css/styles.css';
+import './FloatLayoutItem.css';
 
 export interface FloatLayoutItemProps {
   isResizable?: boolean;
@@ -115,7 +115,7 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
     <Draggable
       disabled={!isDraggable}
       nodeRef={nodeRef}
-      handle=".react-float-item"
+      handle=".react-float-item-v"
       position={{
         x: layoutValue.left,
         y: layoutValue.top,

@@ -21,7 +21,7 @@ class PlotArrow extends PlotLine {
     const style = [
       new Style({
         stroke: new Stroke({
-          width: 3,
+          width: 2,
           color: 'blue',
         }),
       }),

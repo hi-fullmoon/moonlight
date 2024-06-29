@@ -67,9 +67,9 @@ export const _EasyLayout: React.FC<Omit<EasyLayoutProps, 'style' | 'className' |
     setLayouts(result);
   }, [layouts]);
 
-  const handleLayoutChange = (layouts: EasyLayoutOption[]) => {
+  const handleLayoutChange = (items: EasyLayoutOption[]) => {
     const newLayoutList = layouts.map((layout) => {
-      const current = layouts.find((l) => l.i === layout.i);
+      const current = items.find((l) => l.i === layout.i);
       return current || layout;
     });
     onLayoutChange?.(newLayoutList);
@@ -77,7 +77,13 @@ export const _EasyLayout: React.FC<Omit<EasyLayoutProps, 'style' | 'className' |
 
   return (
     <>
-      <GridLayout layoutList={gridLayoutList} colWidth={colWidth} width={width} onLayoutChange={handleLayoutChange}>
+      <GridLayout
+        width={width}
+        layoutList={gridLayoutList}
+        rowHeight={ROW_HEIGHT}
+        colWidth={colWidth}
+        onLayoutChange={handleLayoutChange}
+      >
         {gridLayoutChildren}
       </GridLayout>
       <FloatLayout
