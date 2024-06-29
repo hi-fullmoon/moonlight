@@ -1,12 +1,17 @@
 {
   "name": "@moonlight/ol-plot",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.1-alpha.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
     "build": "rimraf dist && tsx ../../scripts/build.ts"
   },
+  "files": [
+    "dist",
+    "package.json",
+    "LICENSE.md"
+  ],
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
