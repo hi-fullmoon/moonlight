@@ -1,9 +1,9 @@
 {
   "name": "@moonlight/ol-plot",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.5-alpha.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "license" : "MIT",
+  "license": "MIT",
   "scripts": {
     "build": "rimraf dist && tsx ../../scripts/build.ts"
   },
