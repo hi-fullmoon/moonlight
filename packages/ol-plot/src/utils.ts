@@ -26,9 +26,9 @@ export const getGeomByPlotType = (type: PlotType) => {
 };
 
 /**
- * 序列化
+ * 将 elements 的信息转换成 geojson 格式数据
  */
-export const serialize = (elements: PlotBase[]) => {
+export const toGeoJson = (elements: PlotBase[]) => {
   const ret: any = {
     type: 'FeatureCollection',
     features: [],

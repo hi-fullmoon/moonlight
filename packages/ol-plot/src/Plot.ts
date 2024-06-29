@@ -13,7 +13,7 @@ import Modify from './Modify';
 import Remove from './Remove';
 import { PlotEvent, PlotType } from './typings';
 import EventBus from './EventEmitter';
-import { getGeomByPlotType, serialize } from './utils';
+import { getGeomByPlotType, toGeoJson } from './utils';
 
 interface DrawingOptions {
   icon?: string;
@@ -224,7 +224,7 @@ class Plot {
    * 获取标绘数据，需要做序列化处理
    */
   getData() {
-    return serialize(this.elements);
+    return toGeoJson(this.elements);
   }
 
   /**
