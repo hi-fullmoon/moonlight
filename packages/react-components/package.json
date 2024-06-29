@@ -3,6 +3,7 @@
   "version": "0.0.4-alpha.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "license" : "MIT",
   "files": [
     "dist",
     "package.json"
@@ -26,5 +27,6 @@
   },
   "dependencies": {
     "classnames": "^2.5.1"
-  }
+  },
+  "gitHead": "25de553963978dbd7c9f49be468977435e89919e"
 }

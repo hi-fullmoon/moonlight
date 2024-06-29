@@ -9,4 +9,6 @@ build/
 
 .rollup.cache
 
+lerna-debug.log
 *storybook.log
+
