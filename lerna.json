@@ -2,5 +2,9 @@
   "npmClient": "pnpm",
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "version": "independent",
-  "command": {}
+  "command": {
+    "version": {
+      "message": "build: publish"
+    }
+  }
 }
