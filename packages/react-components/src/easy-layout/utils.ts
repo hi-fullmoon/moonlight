@@ -96,8 +96,6 @@ export const calcRealSize = (
 export const resolveGridLayout = (layout: any) => {
   let ret: any = {};
   ret.type = 'grid';
-  ['i', 'x', 'y', 'w', 'h', 'z'].forEach((key) => {
-    ret[key] = layout[key];
-  });
+  ['i', 'x', 'y', 'w', 'h', 'z'].forEach((key) => (ret[key] = layout[key]));
   return ret as EasyLayoutOption;
 };

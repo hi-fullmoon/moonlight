@@ -1,0 +1,16 @@
+{
+  "name": "@zhengbiwen/ol-plot",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {},
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "devDependencies": {},
+  "peerDependencies": {
+    "ol": ">=9"
+  }
+}

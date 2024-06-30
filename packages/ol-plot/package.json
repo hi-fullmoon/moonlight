@@ -5,11 +5,24 @@
   "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && tsx ../../scripts/build.ts"
+    "build": "rimraf dist && tsx ../../scripts/build-plot.ts"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
+  "lerna": {
+    "command": {
+      "publish": {
+        "assets": [
+          {
+            "form": "npm/package.json",
+            "to": "./"
+          }
+        ]
+      }
+    }
+  },
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -19,6 +32,6 @@
     "rimraf": "^5.0.7"
   },
   "peerDependencies": {
-    "ol": "^9.2.4"
+    "ol": ">=9"
   }
 }

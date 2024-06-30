@@ -5,7 +5,7 @@ import type { TableColumnsType } from 'antd';
 import { saveAsXlsx, saveAsZip } from '../src';
 
 const meta = {
-  title: 'Example/AntdTableToXlsx',
+  title: 'Utils/antd table to xlsx',
   decorators: [(story: Function) => <Card>{story()}</Card>],
 } satisfies Meta;
 

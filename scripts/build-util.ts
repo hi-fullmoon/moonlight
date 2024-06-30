@@ -1,12 +1,12 @@
-import postcss from 'rollup-plugin-postcss';
-import { rollup, OutputOptions } from 'rollup';
+import { OutputOptions, rollup } from 'rollup';
 import typescript from '@rollup/plugin-typescript';
 import { RollupOptions } from 'rollup';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import postcss from 'rollup-plugin-postcss';
 
-async function build() {
+async function buildOp() {
   const config: RollupOptions = {
     input: ['src/index.ts'],
     output: [
@@ -22,14 +22,14 @@ async function build() {
         extract: true,
       }),
       typescript(),
-      nodeResolve(),
       commonjs(),
+      nodeResolve(),
       babel({
         babelHelpers: 'runtime',
         extensions: ['.ts', '.tsx'],
       }),
     ],
-    external: ['react', 'react-dom', 'react-grid-layout', 'react-resizable', 'react-draggable'],
+    external: ['exceljs', 'file-saver', 'pizzip'],
   };
   const build = await rollup(config);
 
@@ -40,4 +40,4 @@ async function build() {
   console.log(`[JS] Generated ESM files ✅`);
 }
 
-build();
+buildOp();

@@ -3,7 +3,7 @@ import { GridLayout } from './grid-layout';
 import { FloatLayout } from './float-layout';
 import { LAYOUT_MARGIN, COLUMNS, CONTAINER_PADDING, ROW_HEIGHT } from './constants';
 import { DragGuideLinesProvider, useDragGuideLines } from '../drag-guide-lines';
-import { calcRealPosition, calcRealSize } from './utils';
+import { calcColWidth, calcRealPosition, calcRealSize } from './utils';
 import { LayoutOption } from '../drag-guide-lines/provider';
 import classNames from 'classnames';
 import './index.css';
@@ -52,7 +52,7 @@ export const _EasyLayout: React.FC<Omit<EasyLayoutProps, 'style' | 'className' |
     }
   });
 
-  const colWidth = (width - LAYOUT_MARGIN[0] * (COLUMNS - 1) - CONTAINER_PADDING[0] * 2) / COLUMNS;
+  const colWidth = calcColWidth(width);
 
   const { setLayouts } = useDragGuideLines();
 

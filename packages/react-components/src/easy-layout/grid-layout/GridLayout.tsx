@@ -38,6 +38,7 @@ export const GridLayout: React.FC<GridLayoutProps> = ({
       rowHeight={rowHeight}
       cols={COLUMNS}
       layout={layoutList}
+      draggableHandle=""
       resizeHandles={['se', 'e', 's']}
       isResizable={isResizable}
       isDraggable={isDraggable}

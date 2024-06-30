@@ -97,25 +97,29 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
   if (!layoutValue) return null;
 
   const child = React.Children.only(children) as React.ReactElement;
-  const newChild = React.cloneElement(child, {
-    ref: nodeRef,
-    className: classNames('react-float-item', child.props.className),
-    style: {
-      ...child.props.style,
-      width: layoutValue.width,
-      height: layoutValue.height,
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      zIndex: zValue,
+  const newChild = React.cloneElement(
+    child,
+    {
+      ref: nodeRef,
+      className: classNames('react-float-item', child.props.className),
+      style: {
+        ...child.props.style,
+        width: layoutValue.width,
+        height: layoutValue.height,
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        zIndex: zValue,
+      },
     },
-  });
+    [child.props.children, <span key="react-draggable-handle-key" className="react-draggable-handle"></span>],
+  );
 
   return (
     <Draggable
       disabled={!isDraggable}
       nodeRef={nodeRef}
-      handle=".react-float-item-v"
+      handle=".react-draggable-handle"
       position={{
         x: layoutValue.left,
         y: layoutValue.top,

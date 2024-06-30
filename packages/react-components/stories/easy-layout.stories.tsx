@@ -4,7 +4,7 @@ import { Card } from 'antd';
 import { useState } from 'react';
 
 const meta = {
-  title: 'Example/EasyLayout',
+  title: 'React Component/EasyLayout',
   component: EasyLayout,
 } satisfies Meta<typeof EasyLayout>;
 
@@ -17,13 +17,13 @@ const layouts: EasyLayoutOption[] = [
     x: 0,
     y: 0,
     w: 20,
-    h: 30,
+    h: 10,
   },
   {
     type: 'float',
     i: '2',
     x: 20,
-    y: 0,
+    y: 10,
     w: 20,
     h: 10,
   },
@@ -33,13 +33,13 @@ const layouts: EasyLayoutOption[] = [
     x: 20,
     y: 0,
     w: 20,
-    h: 30,
+    h: 10,
   },
   {
     type: 'float',
     i: '4',
-    x: 0,
-    y: 0,
+    x: 5,
+    y: 10,
     w: 20,
     h: 10,
   },

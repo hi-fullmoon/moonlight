@@ -4,7 +4,7 @@ import PlotEllipse from './elements/Ellipse';
 import PlotLine from './elements/Line';
 import PlotPoint from './elements/Point';
 import PlotPolygon from './elements/Polygon';
-import PlotRectRangle from './elements/Rectangle';
+import PlotRectangle from './elements/Rectangle';
 import PlotText from './elements/Text';
 import PlotArrow from './elements/Arrow';
 import PlotMeasureDistance from './elements/MeasureDistance';
@@ -32,7 +32,7 @@ function createElement(type: PlotType, options: ElementOptions) {
     case 'ELLIPSE':
       return new PlotEllipse({ type, feature });
     case 'RECTANGLE':
-      return new PlotRectRangle({ type, feature });
+      return new PlotRectangle({ type, feature });
     case 'TEXT':
       return new PlotText({ type, feature, iconMap, map });
     case 'ARROW':

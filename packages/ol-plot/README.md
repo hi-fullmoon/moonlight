@@ -1,21 +1,16 @@
+
+### Demo
+
+```tsx
 import React, { useEffect, useRef } from 'react';
-import type { Meta } from '@storybook/react';
 import Map from 'ol/Map.js';
 import OSM from 'ol/source/OSM.js';
 import TileLayer from 'ol/layer/Tile.js';
 import View from 'ol/View.js';
 import 'ol/ol.css';
 import * as interaction from 'ol/interaction';
-import { PlotType } from '../src/typings';
-import { MLPlot } from '../src';
-import data from './data';
-import '../src/index.css';
-
-const meta = {
-  title: 'Others/ol-plot',
-} satisfies Meta;
-
-export default meta;
+import { MLPlot, PlotType } from '@zhengbiwen/ol-plot'
+import '@zhengbiwen/ol-plot/index.css';
 
 export const Demo = () => {
   const plotRef = useRef<MLPlot>();
@@ -39,7 +34,6 @@ export const Demo = () => {
     });
 
     plotRef.current = new MLPlot({ map, mode: 'edit' });
-    plotRef.current.initData(data);
     map.addLayer(plotRef.current.getLayer()!);
   }, []);
 
@@ -81,3 +75,4 @@ export const Demo = () => {
     </>
   );
 };
+```

@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rimraf dist && tsx ../../scripts/build-rc.ts"
+    "build": "rimraf dist && tsx ../../scripts/build-util.ts"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
