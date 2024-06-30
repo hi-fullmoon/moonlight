@@ -25,7 +25,6 @@ async function build() {
         extensions: ['ts', '.tsx'],
       }),
     ],
-    external: [],
   };
   const build = await rollup(config);
 

@@ -8,9 +8,7 @@
     "build": "rimraf dist && tsx ../../scripts/build.ts"
   },
   "files": [
-    "dist",
-    "package.json",
-    "LICENSE.md"
+    "dist"
   ],
   "devDependencies": {
     "@types/react": "^18.3.3",
