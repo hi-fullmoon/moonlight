@@ -28,5 +28,8 @@
   },
   "peerDependencies": {
     "ol": ">=9"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
