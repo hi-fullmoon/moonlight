@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { GridLayout } from './grid-layout';
 import { FloatLayout } from './float-layout';
 import { ROW_HEIGHT } from './constants';
@@ -108,9 +108,10 @@ export const InternalMixedLayout: React.FC<Omit<MixedLayoutProps, 'style' | 'cla
 };
 
 export const MixedLayout: React.FC<MixedLayoutProps> = ({ style, className, enableDragGuideLines = true, ...rest }) => {
+  const containerRef = useRef<HTMLDivElement>(null!);
   return (
-    <DragGuideLinesProvider disabled={!enableDragGuideLines}>
-      <div style={style} className={clsx('ml-mixed-layout', className)}>
+    <DragGuideLinesProvider getContainer={() => containerRef.current} disabled={!enableDragGuideLines}>
+      <div ref={containerRef} style={style} className={clsx('m-mixed-layout', className)}>
         <InternalMixedLayout {...rest} />
       </div>
     </DragGuideLinesProvider>

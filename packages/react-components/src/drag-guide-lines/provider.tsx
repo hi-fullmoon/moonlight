@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { DragGuideLinesContext } from './context';
 import { resolveHorizontalLines, resolveVerticalLines } from './utils';
+import { createPortal } from 'react-dom';
 
 export interface LineOption {
   top?: number;
@@ -20,16 +21,20 @@ export interface LayoutOption {
 export interface DragGuideLinesProviderProps {
   disabled?: boolean;
   lineColor?: string;
+  getContainer?: () => HTMLElement;
   children?: React.ReactNode;
 }
 
 export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({
   disabled = false,
   lineColor = '#eb4c42',
+  getContainer,
   children,
 }) => {
   const linesContainerRef = useRef<HTMLDivElement>(null!);
   const layoutsRef = useRef<Record<number | string, LayoutOption>>({});
+
+  const container = getContainer?.();
 
   const setLayouts = (layouts: Record<number | string, LayoutOption>) => {
     if (disabled) return;
@@ -102,6 +107,8 @@ export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({
     linesContainerRef.current.innerHTML = linesHtmlStr;
   };
 
+  const linesContainer = <div style={{ userSelect: 'none', pointerEvents: 'none' }} ref={linesContainerRef} />;
+
   return (
     <DragGuideLinesContext.Provider
       value={{
@@ -111,7 +118,7 @@ export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({
       }}
     >
       {children}
-      {!disabled && <div style={{ userSelect: 'none', pointerEvents: 'none' }} ref={linesContainerRef} />}
+      {!disabled && (container ? createPortal(linesContainer, container) : linesContainer)}
     </DragGuideLinesContext.Provider>
   );
 };
