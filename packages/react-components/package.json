@@ -1,5 +1,5 @@
 {
-  "name": "@zhengbiwen/react-components",
+  "name": "@repeat-z/react-components",
   "version": "1.0.0-alpha.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
