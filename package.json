@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "type": "module",
+  "version": "1.0.0",
   "scripts": {
     "build": "lerna run build",
     "publish": "lerna run publish",
