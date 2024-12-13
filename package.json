@@ -5,7 +5,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "lerna run build",
-    "publish": "lerna run publish",
+    "version": "changeset version",
+    "publish": "changeset publish",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky",
