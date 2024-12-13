@@ -5,6 +5,7 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
+import path from 'path';
 
 async function buildPlot() {
   const config: RollupOptions = {
@@ -19,7 +20,7 @@ async function buildPlot() {
     ],
     plugins: [
       postcss({
-        extract: true,
+        extract: 'style.css',
       }),
       typescript(),
       commonjs(),

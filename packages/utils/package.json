@@ -8,19 +8,19 @@
     "dist"
   ],
   "scripts": {
-    "build": "rimraf dist && tsx ../../scripts/build-util.ts"
+    "build": "rimraf dist && tsx rollup.config.ts"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "antd": "^5.18.2",
+    "@types/react": "^18.3.16",
+    "@types/react-dom": "^18.3.5",
+    "antd": "^5.22.4",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "pizzip": "^3.1.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "rimraf": "^5.0.7"
+    "rimraf": "^5.0.10"
   },
   "peerDependencies": {
     "exceljs": "^4.4.0",

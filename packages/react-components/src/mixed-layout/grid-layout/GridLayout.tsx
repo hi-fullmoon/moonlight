@@ -2,17 +2,17 @@ import React from 'react';
 import ReactGridLayout, { Layout } from 'react-grid-layout';
 import { COLUMNS, CONTAINER_PADDING, LAYOUT_MARGIN } from '../constants';
 import { resolveGridLayout } from '../utils';
-import { EasyLayoutOption } from '../index';
+import { MixedLayoutOption } from '../index';
 import 'react-grid-layout/css/styles.css';
 
 export interface GridLayoutProps {
   width: number;
-  layoutList: EasyLayoutOption[];
+  layoutList: MixedLayoutOption[];
   colWidth: number;
   rowHeight: number;
   isResizable?: boolean;
   isDraggable?: boolean;
-  onLayoutChange?: (layoutList: EasyLayoutOption[]) => void;
+  onLayoutChange?: (layoutList: MixedLayoutOption[]) => void;
   children?: React.ReactNode;
 }
 

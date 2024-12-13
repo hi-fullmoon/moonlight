@@ -1,15 +1,15 @@
 import React, { useRef } from 'react';
-import { EasyLayoutOption } from '../index';
+import { MixedLayoutOption } from '../index';
 import { FloatLayoutItem } from './FloatLayoutItem';
 import './FloatLayout.css';
 
 export interface FloatLayoutProps {
-  layoutList: EasyLayoutOption[];
+  layoutList: MixedLayoutOption[];
   rowHeight: number;
   colWidth: number;
   isResizable?: boolean;
   isDraggable?: boolean;
-  onLayoutChange?: (layouts: EasyLayoutOption[]) => void;
+  onLayoutChange?: (layouts: MixedLayoutOption[]) => void;
   children?: React.ReactNode;
 }
 
@@ -31,7 +31,7 @@ export const FloatLayout: React.FC<FloatLayoutProps> = ({
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const handleChange = (layout: EasyLayoutOption) => {
+  const handleChange = (layout: MixedLayoutOption) => {
     const newLayoutList = layoutList.map((item) => {
       if (item.i === layout.i) return layout;
       return item;

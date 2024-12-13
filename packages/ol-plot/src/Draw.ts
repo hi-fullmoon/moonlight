@@ -5,7 +5,7 @@
 import { Feature, Map, MapBrowserEvent } from 'ol';
 import VectorLayer from 'ol/layer/Vector';
 import PlotBase, { AnchorPointOption } from './elements/PlotBase';
-import EventBus from './EventEmitter';
+import EventBus from './EventBus';
 import { PlotType } from './typings';
 
 export interface DrawOptions {

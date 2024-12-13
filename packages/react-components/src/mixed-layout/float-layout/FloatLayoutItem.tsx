@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Resizable, ResizeCallbackData } from 'react-resizable';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { calcSize, calcPosition, calcRealSize, calcRealPosition } from '../utils';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useDragGuideLines } from '../../drag-guide-lines';
-import { EasyLayoutOption } from '../index';
+import { MixedLayoutOption } from '../index';
 import 'react-resizable/css/styles.css';
 import './FloatLayoutItem.css';
 
@@ -13,8 +13,8 @@ export interface FloatLayoutItemProps {
   isDraggable?: boolean;
   rowHeight: number;
   colWidth: number;
-  layout: EasyLayoutOption;
-  onChange: (layout: EasyLayoutOption) => void;
+  layout: MixedLayoutOption;
+  onChange: (layout: MixedLayoutOption) => void;
   children?: React.ReactNode;
 }
 
@@ -101,7 +101,7 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
     child,
     {
       ref: nodeRef,
-      className: classNames('react-float-item', child.props.className),
+      className: clsx('react-float-item', child.props.className),
       style: {
         ...child.props.style,
         width: layoutValue.width,

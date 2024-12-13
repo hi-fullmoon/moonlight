@@ -5,7 +5,7 @@
   "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && tsx ../../scripts/build-plot.ts"
+    "build": "rimraf dist && tsx rollup.config.ts"
   },
   "files": [
     "dist",
@@ -14,22 +14,17 @@
   "lerna": {
     "command": {
       "publish": {
-        "assets": [
-          {
-            "form": "npm/package.json",
-            "to": "./"
-          }
-        ]
+        "assets": []
       }
     }
   },
   "devDependencies": {
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^18.3.16",
+    "@types/react-dom": "^18.3.5",
     "ol": "^9.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "rimraf": "^5.0.7"
+    "rimraf": "^5.0.10"
   },
   "peerDependencies": {
     "ol": ">=9"

@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { nanoid } from 'nanoid';
 import { genRule } from './utils';
 
@@ -18,5 +18,5 @@ const defaultTreeData = {
 
 export const QueryBuilder: React.FC<QueryBuilderProps> = ({ style, className }) => {
   const renderTree = () => {};
-  return <div style={style} className={classNames('ml-query-builder', className)}></div>;
+  return <div style={style} className={clsx('ml-query-builder', className)}></div>;
 };

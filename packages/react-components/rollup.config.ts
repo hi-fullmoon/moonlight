@@ -19,7 +19,7 @@ async function build() {
     ],
     plugins: [
       postcss({
-        extract: true,
+        extract: 'style.css',
       }),
       typescript(),
       nodeResolve(),

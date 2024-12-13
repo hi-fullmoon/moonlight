@@ -7,7 +7,7 @@ import View from 'ol/View.js';
 import 'ol/ol.css';
 import * as interaction from 'ol/interaction';
 import { PlotType } from '../src/typings';
-import { MLPlot } from '../src';
+import { OlPlot } from '../src';
 import data from './data';
 import '../src/index.css';
 
@@ -18,7 +18,7 @@ const meta = {
 export default meta;
 
 export const Demo = () => {
-  const plotRef = useRef<MLPlot>();
+  const plotRef = useRef<OlPlot>();
 
   useEffect(() => {
     const map = new Map({
@@ -38,7 +38,7 @@ export const Demo = () => {
       }),
     });
 
-    plotRef.current = new MLPlot({ map, mode: 'edit' });
+    plotRef.current = new OlPlot({ map, mode: 'edit' });
     plotRef.current.initData(data);
     map.addLayer(plotRef.current.getLayer()!);
   }, []);

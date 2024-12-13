@@ -12,14 +12,14 @@ import Draw from './Draw';
 import Modify from './Modify';
 import Remove from './Remove';
 import { PlotEvent, PlotType } from './typings';
-import EventBus from './EventEmitter';
+import EventBus from './EventBus';
 import { getGeomByPlotType, toGeoJson } from './utils';
 
 interface DrawingOptions {
   icon?: string;
 }
 
-export interface PlotConstructorOptions {
+export interface OlPlotConstructorOptions {
   /**
    * ol map
    */
@@ -31,7 +31,7 @@ export interface PlotConstructorOptions {
   mode?: 'edit' | 'view';
 }
 
-class Plot {
+class OlPlot {
   /**
    * 图标映射表
    */
@@ -41,7 +41,7 @@ class Plot {
    * 注册图标
    */
   static registerIcon(icons: { [key: string]: any }) {
-    Plot.iconMap = { ...Plot.iconMap, ...icons };
+    OlPlot.iconMap = { ...OlPlot.iconMap, ...icons };
   }
 
   /**
@@ -84,7 +84,7 @@ class Plot {
    */
   activeElement: PlotBase | null;
 
-  constructor(options: PlotConstructorOptions) {
+  constructor(options: OlPlotConstructorOptions) {
     const { map, mode = 'view' } = options;
 
     this.activeElement = null;
@@ -234,7 +234,7 @@ class Plot {
     const type = feature.get('type') as PlotType;
     const opts = {
       feature,
-      iconMap: Plot.iconMap,
+      iconMap: OlPlot.iconMap,
       map: this.map as Map,
     };
     return createElement(type, opts);
@@ -244,15 +244,15 @@ class Plot {
    * 监听事件，
    * selected, drawend, modified, removed
    */
-  on(type: PlotEvent, callback: Function) {
+  on(type: PlotEvent, callback: EventListener) {
     EventBus.on(type, callback);
   }
 
   /**
    * 卸载事件
    */
-  un(type: PlotEvent, callback: Function) {
-    EventBus.un(type, callback);
+  off(type: PlotEvent, callback: EventListener) {
+    EventBus.off(type, callback);
   }
 
   /**
@@ -361,4 +361,4 @@ class Plot {
   }
 }
 
-export default Plot;
+export default OlPlot;

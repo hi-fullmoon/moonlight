@@ -1,4 +1,4 @@
-import Plot from './Plot';
+import OlPlot from './Plot';
 import './index.css';
 
-export { Plot as MLPlot };
+export { OlPlot };

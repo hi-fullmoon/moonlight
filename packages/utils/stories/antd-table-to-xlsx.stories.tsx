@@ -2,7 +2,9 @@ import React from 'react';
 import type { Meta } from '@storybook/react';
 import { Button, Card, Table } from 'antd';
 import type { TableColumnsType } from 'antd';
+import { ColumnsType, ColumnType } from 'antd/es/table';
 import { saveAsXlsx, saveAsZip } from '../src';
+import { AnyObject } from 'antd/es/_util/type';
 
 const meta = {
   title: 'Utils/antd table to xlsx',
@@ -11,15 +13,7 @@ const meta = {
 
 export default meta;
 
-interface DataType1 {
-  key: React.Key;
-  name: string;
-  chinese: number;
-  math: number;
-  english: number;
-}
-
-const columns1: TableColumnsType<DataType1> = [
+const columns1: ColumnType<AnyObject>[] = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -50,7 +44,7 @@ const columns1: TableColumnsType<DataType1> = [
   },
 ];
 
-const data1: DataType1[] = [
+const data1: AnyObject[] = [
   {
     key: '1',
     name: 'John Brown',
@@ -100,19 +94,7 @@ export const NormalTable: React.FC = () => {
   );
 };
 
-interface DataType2 {
-  key: React.Key;
-  name: string;
-  age: number;
-  street: string;
-  building: string;
-  number: number;
-  companyAddress: string;
-  companyName: string;
-  gender: string;
-}
-
-const columns2: TableColumnsType<DataType2> = [
+const columns2: ColumnsType<AnyObject> = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -196,7 +178,7 @@ const columns2: TableColumnsType<DataType2> = [
   },
 ];
 
-const data2: DataType2[] = [];
+const data2: AnyObject[] = [];
 for (let i = 0; i < 100; i++) {
   data2.push({
     key: i,
@@ -213,8 +195,8 @@ for (let i = 0; i < 100; i++) {
 export const GroupTable: React.FC = () => {
   const handleClick = () => {
     saveAsXlsx({
-      columns: columns1,
-      dataSource: data1,
+      columns: columns2,
+      dataSource: data2,
       filename: 'test.xlsx',
     });
   };

@@ -1,10 +1,10 @@
-import { ColumnGroupType, ColumnType, ColumnsType, TableProps } from 'antd/es/table';
 import ExcelJS, { Column } from 'exceljs';
-import { saveAs } from 'file-saver';
 import PizZip from 'pizzip';
+import { saveAs } from 'file-saver';
+import { ColumnGroupType, ColumnType, ColumnsType, TableProps } from 'antd/es/table';
 
-function isGroupColumn(column: ColumnsType[number]): column is ColumnGroupType<any> {
-  return (column as ColumnGroupType<any>).children && (column as ColumnGroupType<any>).children.length > 0;
+function isGroupColumn<T = any>(column: ColumnGroupType<T> | ColumnType<T>): column is ColumnGroupType<T> {
+  return (column as ColumnGroupType<T>).children && (column as ColumnGroupType<T>).children.length > 0;
 }
 
 function getColumnWidth(column: ColumnsType[number], currentWidth = 1) {
@@ -159,7 +159,7 @@ function traversalAntdTableColumns(columns: ColumnsType) {
   return { headerData, merges };
 }
 
-export async function antdTableToBuffer(columns: TableProps['columns'], dataSource: TableProps['dataSource']) {
+export async function antdTableToBuffer(columns: ColumnsType, dataSource: TableProps['dataSource']) {
   if (!columns || columns.length === 0) {
     throw new Error('The columns parameter cannot be empty.');
   }
@@ -191,7 +191,7 @@ export async function antdTableToBuffer(columns: TableProps['columns'], dataSour
 }
 
 interface SaveAsXlsxOptions {
-  columns?: TableProps['columns'];
+  columns?: ColumnsType;
   dataSource?: TableProps['dataSource'];
   filename?: string;
 }

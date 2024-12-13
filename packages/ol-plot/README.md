@@ -1,4 +1,3 @@
-
 ### Demo
 
 ```tsx
@@ -9,11 +8,11 @@ import TileLayer from 'ol/layer/Tile.js';
 import View from 'ol/View.js';
 import 'ol/ol.css';
 import * as interaction from 'ol/interaction';
-import { MLPlot, PlotType } from '@zhengbiwen/ol-plot'
-import '@zhengbiwen/ol-plot/index.css';
+import { MOlPlot, PlotType } from '@zhengbiwen/ol-plot';
+import '@zhengbiwen/ol-plot/style.css';
 
 export const Demo = () => {
-  const plotRef = useRef<MLPlot>();
+  const plotRef = useRef<MOlPlot>();
 
   useEffect(() => {
     const map = new Map({
@@ -33,7 +32,7 @@ export const Demo = () => {
       }),
     });
 
-    plotRef.current = new MLPlot({ map, mode: 'edit' });
+    plotRef.current = new MOlPlot({ map, mode: 'edit' });
     map.addLayer(plotRef.current.getLayer()!);
   }, []);
 

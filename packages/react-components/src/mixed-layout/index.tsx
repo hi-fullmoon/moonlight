@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { GridLayout } from './grid-layout';
 import { FloatLayout } from './float-layout';
-import { LAYOUT_MARGIN, COLUMNS, CONTAINER_PADDING, ROW_HEIGHT } from './constants';
+import { ROW_HEIGHT } from './constants';
 import { DragGuideLinesProvider, useDragGuideLines } from '../drag-guide-lines';
 import { calcColWidth, calcRealPosition, calcRealSize } from './utils';
 import { LayoutOption } from '../drag-guide-lines/provider';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import './index.css';
 
 export type LayoutType = 'grid' | 'float';
 
-export interface EasyLayoutOption {
+export interface MixedLayoutOption {
   type?: LayoutType;
   i: string;
   x: number;
@@ -20,37 +20,46 @@ export interface EasyLayoutOption {
   z?: number;
 }
 
-export interface EasyLayoutProps {
+export interface MixedLayoutProps {
   style?: React.CSSProperties;
   className?: string;
   width: number;
-  layouts: EasyLayoutOption[];
-  onLayoutChange?: (layouts: EasyLayoutOption[]) => void;
+  layouts: MixedLayoutOption[];
+  onLayoutChange?: (layouts: MixedLayoutOption[]) => void;
   enableDragGuideLines?: boolean;
   children?: React.ReactNode;
 }
 
-export const _EasyLayout: React.FC<Omit<EasyLayoutProps, 'style' | 'className' | 'enableDragGuideLines'>> = ({
+export const InternalMixedLayout: React.FC<Omit<MixedLayoutProps, 'style' | 'className' | 'enableDragGuideLines'>> = ({
   children,
   width,
   layouts,
   onLayoutChange,
 }) => {
-  const gridLayoutList: EasyLayoutOption[] = [];
-  const floatLayoutList: EasyLayoutOption[] = [];
-  const gridLayoutChildren: React.ReactNode[] = [];
-  const floatLayoutChildren: React.ReactNode[] = [];
+  const { gridLayoutList, floatLayoutList, gridLayoutChildren, floatLayoutChildren } = useMemo(() => {
+    const gridLayoutList: MixedLayoutOption[] = [];
+    const floatLayoutList: MixedLayoutOption[] = [];
+    const gridLayoutChildren: React.ReactNode[] = [];
+    const floatLayoutChildren: React.ReactNode[] = [];
 
-  layouts.forEach((layout, index) => {
-    const _children = (children as React.ReactNode[])[index];
-    if (layout.type === 'grid') {
-      gridLayoutList.push(layout);
-      gridLayoutChildren.push(_children);
-    } else {
-      floatLayoutList.push(layout);
-      floatLayoutChildren.push(_children);
-    }
-  });
+    layouts.forEach((layout, index) => {
+      const _children = (children as React.ReactNode[])[index];
+      if (layout.type === 'grid') {
+        gridLayoutList.push(layout);
+        gridLayoutChildren.push(_children);
+      } else {
+        floatLayoutList.push(layout);
+        floatLayoutChildren.push(_children);
+      }
+    });
+
+    return {
+      gridLayoutList,
+      floatLayoutList,
+      gridLayoutChildren,
+      floatLayoutChildren,
+    };
+  }, [layouts, children]);
 
   const colWidth = calcColWidth(width);
 
@@ -67,7 +76,7 @@ export const _EasyLayout: React.FC<Omit<EasyLayoutProps, 'style' | 'className' |
     setLayouts(result);
   }, [layouts]);
 
-  const handleLayoutChange = (items: EasyLayoutOption[]) => {
+  const handleLayoutChange = (items: MixedLayoutOption[]) => {
     const newLayoutList = layouts.map((layout) => {
       const current = items.find((l) => l.i === layout.i);
       return current || layout;
@@ -98,12 +107,12 @@ export const _EasyLayout: React.FC<Omit<EasyLayoutProps, 'style' | 'className' |
   );
 };
 
-export const EasyLayout: React.FC<EasyLayoutProps> = ({ style, className, enableDragGuideLines = true, ...rest }) => {
+export const MixedLayout: React.FC<MixedLayoutProps> = ({ style, className, enableDragGuideLines = true, ...rest }) => {
   return (
-    <div style={style} className={classNames('ml-easy-layout', className)}>
-      <DragGuideLinesProvider disabled={!enableDragGuideLines}>
-        <_EasyLayout {...rest} />
-      </DragGuideLinesProvider>
-    </div>
+    <DragGuideLinesProvider disabled={!enableDragGuideLines}>
+      <div style={style} className={clsx('ml-mixed-layout', className)}>
+        <InternalMixedLayout {...rest} />
+      </div>
+    </DragGuideLinesProvider>
   );
 };

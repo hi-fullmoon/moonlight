@@ -1,2 +1,2 @@
-export * from './easy-layout';
+export * from './mixed-layout';
 export * from './drag-guide-lines';

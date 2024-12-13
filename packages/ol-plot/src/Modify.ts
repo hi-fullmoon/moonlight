@@ -5,7 +5,7 @@
 import { Feature, Map, MapBrowserEvent, Overlay } from 'ol';
 import { ANCHOR_POINT_ID_PREFIX, CENTER_POINT_ID } from './constants';
 import PlotBase, { AnchorPointOption } from './elements/PlotBase';
-import EventBus from './EventEmitter';
+import EventBus from './EventBus';
 
 interface PointRecord {
   id: string;
@@ -87,7 +87,7 @@ class Modify {
     for (let i = 0; i < anchorPoints.length; i++) {
       const point = anchorPoints[i];
       const id = `${ANCHOR_POINT_ID_PREFIX}${i}`;
-      const cls = point.type === 'anchor' ? 'ml-plot-anchor-point' : 'ml-plot-ghost-anchor-point';
+      const cls = point.type === 'anchor' ? 'm-ol-plot-anchor-point' : 'm-ol-plot-ghost-anchor-point';
 
       const element = this.createElement(id, cls, point.type, i);
 
@@ -108,7 +108,7 @@ class Modify {
 
     // 中心点
     const centerPoint = this.element.centerPoint;
-    const element = this.createElement(CENTER_POINT_ID, 'ml-plot-center-point', 'center', 0);
+    const element = this.createElement(CENTER_POINT_ID, 'm-ol-plot-center-point', 'center', 0);
 
     const overlay = new Overlay({
       id: CENTER_POINT_ID,

@@ -1,7 +1,7 @@
 import { Map, Overlay } from 'ol';
 import PlotPoint, { PlotPointOptions } from './Point';
 import { Icon, Style } from 'ol/style';
-import EventBus from '../EventEmitter';
+import EventBus from '../EventBus';
 
 interface PlotTextOptions extends PlotPointOptions {
   map: Map;
@@ -53,7 +53,7 @@ class PlotText extends PlotPoint {
    */
   createOverlay() {
     const element = document.createElement('div');
-    element.classList.add('ml-plot-text-popup');
+    element.classList.add('m-ol-plot-text-popup');
 
     this.textarea = this.createTextarea();
     element.appendChild(this.textarea);

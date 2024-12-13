@@ -41,7 +41,7 @@ class PlotMeasureArea extends PlotPolygon {
 
     const element = document.createElement('div');
 
-    element.classList.add('ml-plot-tooltip-area');
+    element.classList.add('m-ol-plot-tooltip-area');
     element.innerHTML = this.getArea();
 
     this.element = element;

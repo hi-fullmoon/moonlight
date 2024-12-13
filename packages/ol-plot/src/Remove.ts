@@ -5,7 +5,7 @@
 import { Feature, Map, Overlay } from 'ol';
 import VectorLayer from 'ol/layer/Vector';
 import PlotBase from './elements/PlotBase';
-import EventBus from './EventEmitter';
+import EventBus from './EventBus';
 
 interface RemoveOptions {
   map: Map;
@@ -41,7 +41,7 @@ class Remove {
       if (!centerPoint || centerPoint.length === 0) return;
 
       const dom = document.createElement('div');
-      dom.classList.add('ml-plot-delete-icon');
+      dom.classList.add('m-ol-plot-delete-icon');
       dom.style.width = 15 + 'px';
       dom.style.height = 15 + 'px';
       dom.style.backgroundColor = 'red';
