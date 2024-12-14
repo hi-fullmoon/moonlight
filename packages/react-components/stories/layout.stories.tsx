@@ -11,7 +11,7 @@ const meta = {
 
 export default meta;
 
-export const Demo = () => {
+export const BasicLayout = () => {
   return (
     <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }}>
       <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible resizable>
@@ -22,10 +22,18 @@ export const Demo = () => {
   );
 };
 
-export const SiderTop = () => {
+export const NoSider = () => {
   return (
     <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }}>
-      <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible resizable position="top">
+      <Content style={{ backgroundColor: '#fff' }}>2</Content>
+    </Layout>
+  );
+};
+
+export const TopSider = () => {
+  return (
+    <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }} siderPosition="top">
+      <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible resizable>
         1
       </Sider>
       <Content style={{ backgroundColor: '#fff' }}>2</Content>
@@ -33,10 +41,10 @@ export const SiderTop = () => {
   );
 };
 
-export const SiderRight = () => {
+export const RightSider = () => {
   return (
-    <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }}>
-      <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible resizable position="right">
+    <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }} siderPosition="right">
+      <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible resizable>
         1
       </Sider>
       <Content style={{ backgroundColor: '#fff' }}>2</Content>
@@ -44,10 +52,43 @@ export const SiderRight = () => {
   );
 };
 
-export const SiderBottom = () => {
+export const BottomSider = () => {
   return (
-    <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }}>
-      <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible resizable position="bottom">
+    <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }} siderPosition="bottom">
+      <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible resizable>
+        1
+      </Sider>
+      <Content style={{ backgroundColor: '#fff' }}>2</Content>
+    </Layout>
+  );
+};
+
+export const LeftSider = () => {
+  return (
+    <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }} siderPosition="left">
+      <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible resizable>
+        1
+      </Sider>
+      <Content style={{ backgroundColor: '#fff' }}>2</Content>
+    </Layout>
+  );
+};
+
+export const NonCollapsibleSider = () => {
+  return (
+    <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }} siderPosition="left">
+      <Sider style={{ backgroundColor: '#f0f2f5' }} collapsible={false}>
+        1
+      </Sider>
+      <Content style={{ backgroundColor: '#fff' }}>2</Content>
+    </Layout>
+  );
+};
+
+export const NonResizableSider = () => {
+  return (
+    <Layout style={{ width: '100%', height: '100vh', backgroundColor: '#f0f2f5' }} siderPosition="left">
+      <Sider style={{ backgroundColor: '#f0f2f5' }} resizable={false}>
         1
       </Sider>
       <Content style={{ backgroundColor: '#fff' }}>2</Content>

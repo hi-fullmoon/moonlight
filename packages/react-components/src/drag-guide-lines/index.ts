@@ -1,3 +1,2 @@
-export { DragGuideLinesContext } from './context';
-export { DragGuideLinesProvider } from './provider';
-export { useDragGuideLines } from './use-drag-guide-lines';
+export { DragGuideLinesProvider } from './DragGuideLinesProvider';
+export { useDragGuideLines } from './useDragGuideLines';

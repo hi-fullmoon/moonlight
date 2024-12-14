@@ -1,4 +1,4 @@
-import { LayoutOption, LineOption } from './provider';
+import { LayoutOption, LineOption } from './DragGuideLinesProvider';
 
 type LineType = 'vertical' | 'horizontal';
 

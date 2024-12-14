@@ -5,9 +5,12 @@
   height: 100%;
 }
 
-.m-layout-pending .m-sider,
-.m-layout-pending .m-content {
-  display: none;
+.m-layout-dragging-horizontal {
+  cursor: col-resize;
+}
+
+.m-layout-dragging-vertical {
+  cursor: row-resize;
 }
 
 .m-layout-sider-left {

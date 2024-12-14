@@ -1,29 +1,35 @@
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import './Layout.css';
 import { LayoutContext } from './context';
-import { useContext, useState, useDeferredValue } from 'react';
-import { SiderPosition } from './Sider';
+import { useContext, useState } from 'react';
+import './Layout.css';
+
+export type SiderPosition = 'left' | 'right' | 'top' | 'bottom';
 
 export interface LayoutProps {
-  children?: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
+  siderPosition?: SiderPosition;
+  children?: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, style, className }) => {
-  const { siderPosition } = useContext(LayoutContext);
+  const { sider } = useContext(LayoutContext);
+  const { position, dragging } = sider;
+
+  const direction = position === 'left' || position === 'right' ? 'horizontal' : 'vertical';
 
   return (
     <div
+      style={style}
       className={clsx(
         'm-layout',
         {
-          [`m-layout-sider-${siderPosition}`]: !!siderPosition,
-          'm-layout-pending': typeof siderPosition === 'undefined',
+          [`m-layout-sider-${position}`]: !!position,
+          [`m-layout-dragging-${direction}`]: dragging,
         },
         className,
       )}
-      style={style}
     >
       {children}
     </div>
@@ -31,10 +37,13 @@ const Layout: React.FC<LayoutProps> = ({ children, style, className }) => {
 };
 
 export const WrappedLayout: React.FC<LayoutProps> = (props) => {
-  const [siderPosition, setSiderPosition] = useState<SiderPosition | undefined>();
+  const [sider, setSider] = useState<{ position: SiderPosition; dragging: boolean }>({
+    position: props.siderPosition ?? 'left',
+    dragging: false,
+  });
 
   return (
-    <LayoutContext.Provider value={{ siderPosition, setSiderPosition }}>
+    <LayoutContext.Provider value={{ sider, setSider }}>
       <Layout {...props} />
     </LayoutContext.Provider>
   );

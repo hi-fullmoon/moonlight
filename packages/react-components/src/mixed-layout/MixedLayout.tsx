@@ -5,7 +5,7 @@ import { FloatLayout } from './float-layout';
 import { ROW_HEIGHT } from './constants';
 import { DragGuideLinesProvider, useDragGuideLines } from '../drag-guide-lines';
 import { calcColWidth, calcRealPosition, calcRealSize } from './utils';
-import { LayoutOption } from '../drag-guide-lines/provider';
+import { LayoutOption } from '../drag-guide-lines/DragGuideLinesProvider';
 import './MixedLayout.css';
 
 export type LayoutType = 'grid' | 'float';

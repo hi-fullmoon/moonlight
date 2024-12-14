@@ -1,9 +1,22 @@
 import { createContext } from 'react';
-import { SiderPosition } from './Sider';
+import { SiderPosition } from './Layout';
 
-interface LayoutContextProps {
-  siderPosition?: SiderPosition;
-  setSiderPosition?: (position?: SiderPosition) => void;
+interface LayoutContextValue {
+  sider: {
+    position: SiderPosition;
+    dragging: boolean;
+  };
+  setSider?: React.Dispatch<
+    React.SetStateAction<{
+      position: SiderPosition;
+      dragging: boolean;
+    }>
+  >;
 }
 
-export const LayoutContext = createContext<LayoutContextProps>({});
+export const LayoutContext = createContext<LayoutContextValue>({
+  sider: {
+    position: 'left',
+    dragging: false,
+  },
+});

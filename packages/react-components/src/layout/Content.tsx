@@ -9,7 +9,7 @@ export interface ContentProps {
 
 export const Content: React.FC<ContentProps> = ({ children, style, className }) => {
   return (
-    <div className={clsx('m-content', className)} style={style}>
+    <div style={style} className={clsx('m-content', className)}>
       {children}
     </div>
   );

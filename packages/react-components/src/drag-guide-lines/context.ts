@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutOption } from './provider';
+import { LayoutOption } from './DragGuideLinesProvider';
 import { noop } from './utils';
 
 interface ContextValue {

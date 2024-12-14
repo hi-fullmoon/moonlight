@@ -1,20 +1,16 @@
 import clsx from 'clsx';
-import './Sider.css';
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useRef } from 'react';
 import { usePropsValue } from '../shared/hooks/usePropsValue';
-import { useUpdate } from '../shared/hooks/useUpdate';
 import { IconLeft } from './IconLeft';
 import { LayoutContext } from './context';
-
-export type SiderPosition = 'left' | 'right' | 'top' | 'bottom';
+import { useDraggable } from './useDraggable';
+import './Sider.css';
 
 export interface SiderProps {
   children?: React.ReactNode | ((collapsed: boolean) => React.ReactNode);
   style?: React.CSSProperties;
   className?: string;
-  // sider 位置
-  position?: SiderPosition;
   // sider 默认 size，position 为 left 和 right 时就是 width，position 为 top 和 bottom 时就是 height
   defaultSize?: number;
   // sider size，position 为 left 和 right 时就是 width，position 为 top 和 bottom 时就是 height
@@ -42,11 +38,13 @@ export interface SiderProps {
 }
 
 export const Sider: React.FC<SiderProps> = (props) => {
+  const { sider, setSider } = useContext(LayoutContext);
+  const { position, dragging: isDragging } = sider;
+
   const {
     style,
     className,
     children,
-    position = 'left',
     defaultSize: defaultSiderSize = 240,
     size: siderSize,
     minSize: siderMinSize = 200,
@@ -61,12 +59,6 @@ export const Sider: React.FC<SiderProps> = (props) => {
     triggerIcon: siderTriggerIcon,
   } = props ?? {};
 
-  const { setSiderPosition } = useContext(LayoutContext);
-
-  useEffect(() => {
-    setSiderPosition?.(position);
-  }, [position]);
-
   const [size, setSize] = usePropsValue<number>({
     defaultValue: defaultSiderSize,
     value: siderSize,
@@ -77,84 +69,41 @@ export const Sider: React.FC<SiderProps> = (props) => {
     onChange: onSiderCollapsedChange,
   });
 
-  const draggingRef = useRef(false);
+  const siderRef = useRef<HTMLDivElement>(null);
+  const gutterRef = useRef<HTMLDivElement>(null);
 
-  const siderRef = useRef<HTMLDivElement>(null!);
-  const gutterRef = useRef<HTMLDivElement>(null!);
+  const handleSizeChange = useCallback(
+    (newSize: number) => {
+      setSize(newSize);
+      onSiderResize?.(newSize);
+    },
+    [setSize, onSiderResize],
+  );
 
-  const update = useUpdate();
+  const handleDragStart = useCallback(() => {
+    setSider?.((prev) => ({ ...prev, dragging: true }));
+  }, [setSider]);
 
-  useEffect(() => {
-    if (!siderResizable) {
-      return;
-    }
+  const handleDragEnd = useCallback(() => {
+    setSider?.((prev) => ({ ...prev, dragging: false }));
+  }, [setSider]);
 
-    let startX = 0;
-    let startY = 0;
-    let startWidth = 0;
-    let startHeight = 0;
+  useDraggable(siderRef, gutterRef, {
+    position,
+    minSize: siderMinSize,
+    maxSize: siderMaxSize,
+    onSizeChange: handleSizeChange,
+    onDragStart: handleDragStart,
+    onDragEnd: handleDragEnd,
+  });
 
-    const gutterDom = gutterRef.current;
-
-    const onMousedown = (e: MouseEvent) => {
-      draggingRef.current = true;
-
-      startX = e.clientX;
-      startY = e.clientY;
-
-      const { width, height } = siderRef.current.getBoundingClientRect();
-      startWidth = width;
-      startHeight = height;
-
-      update();
-
-      e.preventDefault();
-    };
-
-    const onMouseMove = (e: MouseEvent) => {
-      if (draggingRef.current) {
-        if (position === 'left' || position === 'right') {
-          const moveX = position === 'left' ? e.clientX - startX : startX - e.clientX;
-          let newWidth = startWidth + moveX;
-          if (newWidth <= siderMinSize) newWidth = siderMinSize;
-          if (newWidth >= siderMaxSize) newWidth = siderMaxSize;
-          setSize(newWidth);
-          onSiderResize?.(newWidth);
-          return;
-        }
-
-        const moveY = position === 'top' ? e.clientY - startY : startY - e.clientY;
-        let newHeight = startHeight + moveY;
-        if (newHeight <= siderMinSize) newHeight = siderMinSize;
-        if (newHeight >= siderMaxSize) newHeight = siderMaxSize;
-        setSize(newHeight);
-        onSiderResize?.(newHeight);
-      }
-    };
-
-    const onMouseUp = () => {
-      draggingRef.current = false;
-      update();
-    };
-
-    gutterDom.addEventListener('mousedown', onMousedown);
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-
-    return () => {
-      gutterDom.removeEventListener('mousedown', onMousedown);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-  }, [siderResizable, siderMinSize, siderMaxSize]);
-
-  const onIconClick = () => {
+  const handleIconClick = () => {
     setCollapsed(!collapsed);
     onSiderCollapsedChange?.(!collapsed);
   };
 
   const getSiderStyle = () => {
-    if (['left', 'right'].includes(position!)) {
+    if (['left', 'right'].includes(position)) {
       return {
         width: collapsed ? siderCollapsedSize : size,
       };
@@ -179,9 +128,9 @@ export const Sider: React.FC<SiderProps> = (props) => {
         style={{ ...style, ...getSiderStyle() }}
         className={clsx(
           'm-sider',
+          `m-sider-${position}`,
           {
-            [`m-sider-${position}`]: !!position,
-            'm-sider-dragging': draggingRef.current,
+            'm-sider-dragging': isDragging,
           },
           className,
         )}
@@ -190,7 +139,7 @@ export const Sider: React.FC<SiderProps> = (props) => {
         {siderCollapsible && (
           <div
             className={clsx('m-sider-collapse-trigger', `m-sider-collapse-trigger-${position}`)}
-            onClick={onIconClick}
+            onClick={handleIconClick}
           >
             {typeof siderTriggerIcon === 'function' ? siderTriggerIcon(collapsed) : siderTriggerIcon || getArrowIcon()}
           </div>
@@ -199,6 +148,7 @@ export const Sider: React.FC<SiderProps> = (props) => {
       <div
         ref={gutterRef}
         className={clsx('m-layout-gutter', `m-layout-gutter-${position}`, {
+          'm-layout-gutter-dragging': isDragging,
           'm-layout-gutter-hidden': collapsed || !siderResizable,
         })}
       />
