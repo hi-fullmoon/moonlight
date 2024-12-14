@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import clsx from 'clsx';
 import './Scrollbar.less';
 
@@ -89,8 +89,10 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({ children, style, className
     const handleMouseDown = (direction: 'vertical' | 'horizontal') => (e: MouseEvent) => {
       setIsDragging((prev) => ({ ...prev, [direction]: true }));
       setStartPosition({ x: e.clientX, y: e.clientY });
-      setStartScroll({ left: inner.scrollLeft, top: inner.scrollTop });
+      setStartScroll({ left: innerRef.current.scrollLeft, top: innerRef.current.scrollTop });
     };
+    const handleVerticalMouseDown = handleMouseDown('vertical');
+    const handleHorizontalMouseDown = handleMouseDown('horizontal');
 
     const handleMouseUp = () => {
       setIsDragging({ vertical: false, horizontal: false });
@@ -119,8 +121,8 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({ children, style, className
     resizeObserver.observe(inner);
 
     inner.addEventListener('scroll', handleScroll);
-    vThumb.addEventListener('mousedown', handleMouseDown('vertical'));
-    hThumb.addEventListener('mousedown', handleMouseDown('horizontal'));
+    vThumb.addEventListener('mousedown', handleVerticalMouseDown);
+    hThumb.addEventListener('mousedown', handleHorizontalMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
 
@@ -128,8 +130,8 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({ children, style, className
       resizeObserver.disconnect();
 
       inner.removeEventListener('scroll', handleScroll);
-      vThumb.removeEventListener('mousedown', handleMouseDown('vertical'));
-      hThumb.removeEventListener('mousedown', handleMouseDown('horizontal'));
+      vThumb.removeEventListener('mousedown', handleVerticalMouseDown);
+      hThumb.removeEventListener('mousedown', handleHorizontalMouseDown);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
