@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { Scrollbar } from '../src/scrollbar/Scrollbar';
+import { Scrollbar } from '../src/scrollbar';
 
 const meta = {
   title: 'React Components/Scrollbar',
