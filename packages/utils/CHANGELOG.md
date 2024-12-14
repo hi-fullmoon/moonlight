@@ -1,5 +1,11 @@
 # @repeat-z/utils
 
+## 1.3.0
+
+### Minor Changes
+
+- 新增 scrollbar 组件
+
 ## 1.2.0
 
 ### Minor Changes
