@@ -3,9 +3,10 @@ import type { Meta } from '@storybook/react';
 import { MixedLayout, MixedLayoutOption } from '../src';
 import { Card } from 'antd';
 import { useState } from 'react';
+import { styled } from 'storybook/internal/theming';
 
 const meta = {
-  title: 'React Component/MixedLayout',
+  title: 'React Components/MixedLayout',
   component: MixedLayout,
 } satisfies Meta<typeof MixedLayout>;
 
@@ -53,10 +54,35 @@ export const Demo = () => {
   };
 
   return (
-    <MixedLayout style={{ background: 'gray' }} width={1000} layouts={items} onLayoutChange={handleLayoutChange}>
+    <MixedLayout draggableHandle=".draggable-handle" width={1000} layouts={items} onLayoutChange={handleLayoutChange}>
       {items.map((item) => {
-        return <Card key={item.i}>{JSON.stringify(item)}</Card>;
+        return (
+          <StyledCard key={item.i}>
+            {JSON.stringify(item)}
+            <span className="draggable-handle"></span>
+          </StyledCard>
+        );
       })}
     </MixedLayout>
   );
 };
+
+const StyledCard = styled(Card)`
+  overflow: hidden;
+
+  .draggable-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 18px;
+    background: aquamarine;
+    cursor: move;
+    transition: 0.3s all;
+    opacity: 0;
+  }
+
+  &:hover .draggable-handle {
+    opacity: 1;
+  }
+`;

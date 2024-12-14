@@ -7,7 +7,7 @@ export interface LineOption {
   top?: number;
   left?: number;
   length?: number;
-  dist?: number;
+  distance?: number;
 }
 
 export interface LayoutOption {
@@ -65,16 +65,16 @@ export const DragGuideLinesProvider: React.FC<DragGuideLinesProviderProps> = ({
     let y = layout.y;
 
     if (hLines.length > 0) {
-      const line = hLines.sort((a, b) => Math.abs(a.dist!) - Math.abs(b.dist!))[0];
-      if (line.dist! <= 2) {
-        y = layout.y - line.dist!;
+      const line = hLines.sort((a, b) => Math.abs(a.distance!) - Math.abs(b.distance!))[0];
+      if (line.distance! <= 2) {
+        y = layout.y - line.distance!;
       }
     }
 
     if (vLines.length > 0) {
-      const line = vLines.sort((a, b) => Math.abs(a.dist!) - Math.abs(b.dist!))[0];
-      if (line.dist! <= 2) {
-        x = layout.x - line.dist!;
+      const line = vLines.sort((a, b) => Math.abs(a.distance!) - Math.abs(b.distance!))[0];
+      if (line.distance! <= 2) {
+        x = layout.x - line.distance!;
       }
     }
 

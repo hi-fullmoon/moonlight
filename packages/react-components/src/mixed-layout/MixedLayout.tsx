@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useRef } from 'react';
+import clsx from 'clsx';
 import { GridLayout } from './grid-layout';
 import { FloatLayout } from './float-layout';
 import { ROW_HEIGHT } from './constants';
 import { DragGuideLinesProvider, useDragGuideLines } from '../drag-guide-lines';
 import { calcColWidth, calcRealPosition, calcRealSize } from './utils';
 import { LayoutOption } from '../drag-guide-lines/provider';
-import clsx from 'clsx';
-import './index.css';
+import './MixedLayout.css';
 
 export type LayoutType = 'grid' | 'float';
 
@@ -25,16 +25,18 @@ export interface MixedLayoutProps {
   className?: string;
   width: number;
   layouts: MixedLayoutOption[];
+  draggableHandle?: string;
   onLayoutChange?: (layouts: MixedLayoutOption[]) => void;
   enableDragGuideLines?: boolean;
   children?: React.ReactNode;
 }
 
-export const InternalMixedLayout: React.FC<Omit<MixedLayoutProps, 'style' | 'className' | 'enableDragGuideLines'>> = ({
+const InternalMixedLayout: React.FC<Omit<MixedLayoutProps, 'style' | 'className' | 'enableDragGuideLines'>> = ({
   children,
   width,
   layouts,
   onLayoutChange,
+  draggableHandle,
 }) => {
   const { gridLayoutList, floatLayoutList, gridLayoutChildren, floatLayoutChildren } = useMemo(() => {
     const gridLayoutList: MixedLayoutOption[] = [];
@@ -91,6 +93,7 @@ export const InternalMixedLayout: React.FC<Omit<MixedLayoutProps, 'style' | 'cla
         layoutList={gridLayoutList}
         rowHeight={ROW_HEIGHT}
         colWidth={colWidth}
+        draggableHandle={draggableHandle}
         onLayoutChange={handleLayoutChange}
       >
         {gridLayoutChildren}
@@ -99,6 +102,7 @@ export const InternalMixedLayout: React.FC<Omit<MixedLayoutProps, 'style' | 'cla
         layoutList={floatLayoutList}
         rowHeight={ROW_HEIGHT}
         colWidth={colWidth}
+        draggableHandle={draggableHandle}
         onLayoutChange={handleLayoutChange}
       >
         {floatLayoutChildren}
@@ -107,12 +111,18 @@ export const InternalMixedLayout: React.FC<Omit<MixedLayoutProps, 'style' | 'cla
   );
 };
 
-export const MixedLayout: React.FC<MixedLayoutProps> = ({ style, className, enableDragGuideLines = true, ...rest }) => {
+export const MixedLayout: React.FC<MixedLayoutProps> = ({
+  style,
+  className,
+  draggableHandle,
+  enableDragGuideLines = true,
+  ...rest
+}) => {
   const containerRef = useRef<HTMLDivElement>(null!);
   return (
     <DragGuideLinesProvider getContainer={() => containerRef.current} disabled={!enableDragGuideLines}>
       <div ref={containerRef} style={style} className={clsx('m-mixed-layout', className)}>
-        <InternalMixedLayout {...rest} />
+        <InternalMixedLayout draggableHandle={draggableHandle} {...rest} />
       </div>
     </DragGuideLinesProvider>
   );

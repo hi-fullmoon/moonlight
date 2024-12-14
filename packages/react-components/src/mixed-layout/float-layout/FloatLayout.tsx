@@ -9,6 +9,7 @@ export interface FloatLayoutProps {
   colWidth: number;
   isResizable?: boolean;
   isDraggable?: boolean;
+  draggableHandle?: string;
   onLayoutChange?: (layouts: MixedLayoutOption[]) => void;
   children?: React.ReactNode;
 }
@@ -19,6 +20,7 @@ export const FloatLayout: React.FC<FloatLayoutProps> = ({
   colWidth,
   isResizable,
   isDraggable,
+  draggableHandle,
   layoutList,
   onLayoutChange,
 }) => {
@@ -51,6 +53,7 @@ export const FloatLayout: React.FC<FloatLayoutProps> = ({
             isDraggable={isDraggable}
             layout={layoutList[index]}
             onChange={handleChange}
+            draggableHandle={draggableHandle}
           >
             {child}
           </FloatLayoutItem>

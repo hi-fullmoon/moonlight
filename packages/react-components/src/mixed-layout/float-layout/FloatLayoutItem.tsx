@@ -6,11 +6,11 @@ import clsx from 'clsx';
 import { useDragGuideLines } from '../../drag-guide-lines';
 import { MixedLayoutOption } from '../index';
 import 'react-resizable/css/styles.css';
-import './FloatLayoutItem.css';
 
 export interface FloatLayoutItemProps {
   isResizable?: boolean;
   isDraggable?: boolean;
+  draggableHandle?: string;
   rowHeight: number;
   colWidth: number;
   layout: MixedLayoutOption;
@@ -35,6 +35,7 @@ const defaultLayoutValue = {
 export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
   isDraggable = true,
   isResizable = true,
+  draggableHandle,
   layout,
   children,
   colWidth,
@@ -112,14 +113,14 @@ export const FloatLayoutItem: React.FC<FloatLayoutItemProps> = ({
         zIndex: zValue,
       },
     },
-    [child.props.children, <span key="react-draggable-handle-key" className="react-draggable-handle"></span>],
+    child.props.children,
   );
 
   return (
     <Draggable
       disabled={!isDraggable}
       nodeRef={nodeRef}
-      handle=".react-draggable-handle"
+      handle={draggableHandle}
       position={{
         x: layoutValue.left,
         y: layoutValue.top,
