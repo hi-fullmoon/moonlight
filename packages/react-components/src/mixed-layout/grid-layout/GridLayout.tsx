@@ -12,6 +12,7 @@ export interface GridLayoutProps {
   rowHeight: number;
   isResizable?: boolean;
   isDraggable?: boolean;
+  draggableHandle?: string;
   onLayoutChange?: (layoutList: MixedLayoutOption[]) => void;
   children?: React.ReactNode;
 }
@@ -23,6 +24,7 @@ export const GridLayout: React.FC<GridLayoutProps> = ({
   layoutList,
   isResizable,
   isDraggable,
+  draggableHandle,
   onLayoutChange,
 }) => {
   const handleLayoutChange = (currentLayout: Layout[]) => {
@@ -38,7 +40,7 @@ export const GridLayout: React.FC<GridLayoutProps> = ({
       rowHeight={rowHeight}
       cols={COLUMNS}
       layout={layoutList}
-      draggableHandle=""
+      draggableHandle={draggableHandle}
       resizeHandles={['se', 'e', 's']}
       isResizable={isResizable}
       isDraggable={isDraggable}

@@ -1,6 +1,6 @@
+import { round } from 'lodash-es';
 import { MixedLayoutOption } from '.';
 import { COLUMNS, CONTAINER_PADDING, LAYOUT_MARGIN } from './constants';
-import { round } from 'lodash-es';
 
 /**
  * 计算 colWidth
@@ -21,7 +21,6 @@ export const calcPosition = (
 ) => {
   const posX = round(x / (colWidth + margin[0]), 2);
   const posY = round(y / (rowHeight + margin[1]), 2);
-  console.log('posX', posX, 'posY', posY);
   return { x: posX, y: posY };
 };
 

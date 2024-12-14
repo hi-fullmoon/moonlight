@@ -4,7 +4,7 @@ type LineType = 'vertical' | 'horizontal';
 
 export const noop = () => {};
 
-export const getDist = (a: number, b: number) => {
+export const getDistance = (a: number, b: number) => {
   return a - b;
 };
 
@@ -22,14 +22,14 @@ export const resolveLineValues = (target: LayoutOption, comparer: LayoutOption, 
   const b = y + h / 2;
   const l = x + w / 2;
 
-  const direValues: { [key in LineType]: number[] } = {
+  const directionValues: { [key in LineType]: number[] } = {
     vertical: [t, b, T, B],
     horizontal: [l, r, L, R],
   };
 
-  const num = direValues[type].sort((a, b) => a - b);
+  const num = directionValues[type].sort((a, b) => a - b);
   const length = num[num.length - 1] - num[0];
-  const offset = Math.min(...direValues[type]);
+  const offset = Math.min(...directionValues[type]);
 
   const result: LineOption = {
     length,
@@ -58,31 +58,31 @@ export const resolveHorizontalLines = (target: LayoutOption, comparer: LayoutOpt
   let hLines: LineOption[] = [
     // top - top
     {
-      dist: getDist(target.y, comparer.y),
+      distance: getDistance(target.y, comparer.y),
       top: comparer.y,
     },
     // top - bottom
     {
-      dist: getDist(target.y, comparer.y + comparer.h),
+      distance: getDistance(target.y, comparer.y + comparer.h),
       top: comparer.y + comparer.h,
     },
     // center - center
     {
-      dist: getDist(target.y + target.h / 2, comparer.y + comparer.h / 2),
+      distance: getDistance(target.y + target.h / 2, comparer.y + comparer.h / 2),
       top: comparer.y + comparer.h / 2,
     },
     // bottom - top
     {
-      dist: getDist(target.y + target.h, comparer.y),
+      distance: getDistance(target.y + target.h, comparer.y),
       top: comparer.y,
     },
     // bottom - bottom
     {
-      dist: getDist(target.y + target.h, comparer.y + comparer.h),
+      distance: getDistance(target.y + target.h, comparer.y + comparer.h),
       top: comparer.y + comparer.h,
     },
   ]
-    .filter((item) => Math.abs(item.dist) <= THRESHOLD)
+    .filter((item) => Math.abs(item.distance) <= THRESHOLD)
     .map((line) => {
       const { length, left } = resolveLineValues(target, comparer, 'horizontal');
       return {
@@ -102,31 +102,31 @@ export const resolveVerticalLines = (target: LayoutOption, comparer: LayoutOptio
   let vLines: LineOption[] = [
     // left - left
     {
-      dist: getDist(target.x, comparer.x),
+      distance: getDistance(target.x, comparer.x),
       left: comparer.x,
     },
     // left - right
     {
-      dist: getDist(target.x, comparer.x + comparer.w),
+      distance: getDistance(target.x, comparer.x + comparer.w),
       left: comparer.x + comparer.w,
     },
     // center - center
     {
-      dist: getDist(target.x + target.w / 2, comparer.x + comparer.w / 2),
+      distance: getDistance(target.x + target.w / 2, comparer.x + comparer.w / 2),
       left: comparer.x + comparer.w / 2,
     },
     // right - left
     {
-      dist: getDist(target.x + target.w, comparer.x),
+      distance: getDistance(target.x + target.w, comparer.x),
       left: comparer.x,
     },
     // right - right
     {
-      dist: getDist(target.x + target.w, comparer.x + comparer.w),
+      distance: getDistance(target.x + target.w, comparer.x + comparer.w),
       left: comparer.x + comparer.w,
     },
   ]
-    .filter((item) => Math.abs(item.dist) <= THRESHOLD)
+    .filter((item) => Math.abs(item.distance) <= THRESHOLD)
     .map((line) => {
       const { length, top } = resolveLineValues(target, comparer, 'vertical');
       return {
