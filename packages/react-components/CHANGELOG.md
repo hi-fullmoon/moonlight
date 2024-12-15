@@ -1,5 +1,15 @@
 # @repeat-z/react-components
 
+## 1.3.2
+
+### Patch Changes
+
+- scrollbar 组件优化
+
+  - 添加 onScroll prop
+  - ref 支持
+  - 添加 wheel 事件
+
 ## 1.3.1
 
 ### Patch Changes
