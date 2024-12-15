@@ -196,6 +196,43 @@ importers:
         specifier: ^5.0.10
         version: 5.0.10
 
+  packages/scrollbar:
+    dependencies:
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+    devDependencies:
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
+      '@types/react':
+        specifier: ^18.3.16
+        version: 18.3.16
+      '@types/react-dom':
+        specifier: ^18.3.5
+        version: 18.3.5(@types/react@18.3.16)
+      '@types/react-resizable':
+        specifier: ^3.0.8
+        version: 3.0.8
+      antd:
+        specifier: ^5.22.4
+        version: 5.22.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-resizable:
+        specifier: ^3.0.5
+        version: 3.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      rimraf:
+        specifier: ^5.0.10
+        version: 5.0.10
+
   packages/utils:
     devDependencies:
       '@types/file-saver':

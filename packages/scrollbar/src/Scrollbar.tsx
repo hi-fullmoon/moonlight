@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback, useImperativeHandle } from 'react';
 import clsx from 'clsx';
+import { throttle, round } from 'lodash-es';
 import './Scrollbar.less';
 
 export interface ScrollbarProps {
@@ -58,13 +59,12 @@ export const Scrollbar = React.forwardRef<ScrollbarRef, ScrollbarProps>(
       const { height: vTrackHeight } = vTrack.getBoundingClientRect();
       const { width: hTrackWidth } = hTrack.getBoundingClientRect();
 
-      // 垂直滚动条
       if (showScrollbar.vertical) {
-        let vThumbHeight = (clientHeight / scrollHeight) * vTrackHeight;
+        let vThumbHeight = round((clientHeight / scrollHeight) * vTrackHeight, 2);
         vThumbHeight = Math.max(vThumbHeight, MIN_THUMB_SIZE);
         const vScrollableHeight = vTrackHeight - vThumbHeight;
         const vScrollableContentHeight = scrollHeight - clientHeight;
-        const vThumbPosition = vScrollableHeight * (scrollTop / vScrollableContentHeight);
+        const vThumbPosition = round(vScrollableHeight * (scrollTop / vScrollableContentHeight), 2);
         const vMaxPosition = vTrackHeight - vThumbHeight;
         const vFinalPosition = Math.min(vThumbPosition, vMaxPosition);
 
@@ -72,13 +72,12 @@ export const Scrollbar = React.forwardRef<ScrollbarRef, ScrollbarProps>(
         vThumb.style.transform = `translateY(${vFinalPosition}px)`;
       }
 
-      // 水平滚动条
       if (showScrollbar.horizontal) {
-        let hThumbWidth = (clientWidth / scrollWidth) * hTrackWidth;
+        let hThumbWidth = round((clientWidth / scrollWidth) * hTrackWidth, 2);
         hThumbWidth = Math.max(hThumbWidth, MIN_THUMB_SIZE);
         const hScrollableWidth = hTrackWidth - hThumbWidth;
         const hScrollableContentWidth = scrollWidth - clientWidth;
-        const hThumbPosition = hScrollableWidth * (scrollLeft / hScrollableContentWidth);
+        const hThumbPosition = round(hScrollableWidth * (scrollLeft / hScrollableContentWidth), 2);
         const hMaxPosition = hTrackWidth - hThumbWidth;
         const hFinalPosition = Math.min(hThumbPosition, hMaxPosition);
 
@@ -89,6 +88,10 @@ export const Scrollbar = React.forwardRef<ScrollbarRef, ScrollbarProps>(
 
     useEffect(() => {
       const handleMouseUp = () => {
+        if (!isDragging.vertical && !isDragging.horizontal) {
+          return;
+        }
+
         setIsDragging({ vertical: false, horizontal: false });
       };
 
@@ -97,12 +100,14 @@ export const Scrollbar = React.forwardRef<ScrollbarRef, ScrollbarProps>(
         if (isDragging.vertical) {
           const deltaY = e.clientY - startPositionRef.current.y;
           const scrollRatio = content.scrollHeight / content.clientHeight;
-          content.scrollTop = startScrollRef.current.top + deltaY * scrollRatio;
+          const top = startScrollRef.current.top + deltaY * scrollRatio;
+          content.scrollTo({ top, behavior: 'instant' });
         }
         if (isDragging.horizontal) {
           const deltaX = e.clientX - startPositionRef.current.x;
           const scrollRatio = content.scrollWidth / content.clientWidth;
-          content.scrollLeft = startScrollRef.current.left + deltaX * scrollRatio;
+          const left = startScrollRef.current.left + deltaX * scrollRatio;
+          content.scrollTo({ left, behavior: 'instant' });
         }
       };
 
@@ -116,45 +121,75 @@ export const Scrollbar = React.forwardRef<ScrollbarRef, ScrollbarProps>(
     }, [isDragging.vertical, isDragging.horizontal]);
 
     useEffect(() => {
-      const content = contentRef.current;
-      const resizeObserver = new ResizeObserver(() => {
-        updateScrollbarVisibility();
-        updateThumbPositions();
-      });
-      resizeObserver.observe(content);
-
       updateScrollbarVisibility();
       updateThumbPositions();
+
+      const resizeObserver = new ResizeObserver(
+        throttle(() => {
+          updateScrollbarVisibility();
+          updateThumbPositions();
+        }, 16),
+      );
+      resizeObserver.observe(contentRef.current);
 
       return () => {
         resizeObserver.disconnect();
       };
     }, [updateScrollbarVisibility, updateThumbPositions]);
 
-    const handleContentScroll = (e: React.UIEvent<HTMLDivElement>) => {
-      onScroll?.(e);
+    const handleContentScroll = useCallback(
+      throttle((e: React.UIEvent<HTMLDivElement>) => {
+        onScroll?.(e);
 
-      setIsScrolling(true);
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      timerRef.current = setTimeout(() => {
-        setIsScrolling(false);
-      }, 500);
+        setIsScrolling(true);
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+        }
+        timerRef.current = setTimeout(() => {
+          setIsScrolling(false);
+        }, 500);
 
-      updateThumbPositions();
-    };
+        updateThumbPositions();
+      }, 16),
+      [onScroll, updateThumbPositions],
+    );
 
-    const handleContentWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-      const deltaX = e.deltaX;
-      const deltaY = e.deltaY;
+    const handleContentWheel = useCallback(
+      throttle((e: React.WheelEvent<HTMLDivElement>) => {
+        const deltaX = e.deltaX;
+        const deltaY = e.deltaY;
+
+        const content = contentRef.current;
+        if (showScrollbar.vertical) {
+          content.scrollTop += deltaY;
+        }
+        if (showScrollbar.horizontal) {
+          content.scrollLeft += deltaX;
+        }
+      }, 16),
+      [showScrollbar.vertical, showScrollbar.horizontal],
+    );
+
+    const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>, isVertical: boolean) => {
+      if (e.target !== e.currentTarget) return;
 
       const content = contentRef.current;
-      if (showScrollbar.vertical) {
-        content.scrollTop += deltaY;
-      }
-      if (showScrollbar.horizontal) {
-        content.scrollLeft += deltaX;
+      const track = isVertical ? vTrackRef.current : hTrackRef.current;
+      const thumb = isVertical ? vThumbRef.current : hThumbRef.current;
+
+      const trackRect = track.getBoundingClientRect();
+      const thumbRect = thumb.getBoundingClientRect();
+
+      if (isVertical) {
+        const thumbTop = e.clientY - trackRect.top - thumbRect.height / 2;
+        const ratio = Math.max(0, Math.min(thumbTop / (trackRect.height - thumbRect.height), 1));
+        const scrollTop = round(ratio * (content.scrollHeight - content.clientHeight), 2);
+        content.scrollTo({ top: scrollTop, behavior: 'smooth' });
+      } else {
+        const thumbLeft = e.clientX - trackRect.left - thumbRect.width / 2;
+        const ratio = Math.max(0, Math.min(thumbLeft / (trackRect.width - thumbRect.width), 1));
+        const scrollLeft = round(ratio * (content.scrollWidth - content.clientWidth), 2);
+        content.scrollTo({ left: scrollLeft, behavior: 'smooth' });
       }
     };
 
@@ -193,20 +228,22 @@ export const Scrollbar = React.forwardRef<ScrollbarRef, ScrollbarProps>(
           {children}
         </div>
         <div
-          ref={vTrackRef}
-          className={clsx('m-scrollbar-track', 'm-scrollbar-track-vertical', {
-            'm-scrollbar-track-hidden': !showScrollbar.vertical,
-          })}
-        >
-          <div ref={vThumbRef} className="m-scrollbar-thumb" onMouseDown={handleVThumbMouseDown}></div>
-        </div>
-        <div
           ref={hTrackRef}
           className={clsx('m-scrollbar-track', 'm-scrollbar-track-horizontal', {
             'm-scrollbar-track-hidden': !showScrollbar.horizontal,
           })}
+          onClick={(e) => handleTrackClick(e, false)}
         >
-          <div ref={hThumbRef} className="m-scrollbar-thumb" onMouseDown={handleHThumbMouseDown}></div>
+          <div ref={hThumbRef} className="m-scrollbar-thumb" onMouseDown={handleHThumbMouseDown} />
+        </div>
+        <div
+          ref={vTrackRef}
+          className={clsx('m-scrollbar-track', 'm-scrollbar-track-vertical', {
+            'm-scrollbar-track-hidden': !showScrollbar.vertical,
+          })}
+          onClick={(e) => handleTrackClick(e, true)}
+        >
+          <div ref={vThumbRef} className="m-scrollbar-thumb" onMouseDown={handleVThumbMouseDown} />
         </div>
       </div>
     );

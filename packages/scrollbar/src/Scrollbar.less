@@ -1,5 +1,4 @@
 @scrollbar-track-width: 8px;
-@scrollbar-thumb-min-size: 30px;
 @scrollbar-track-color: rgba(0, 0, 0, 0.1);
 @scrollbar-thumb-color: rgba(0, 0, 0, 0.3);
 @scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.5);
@@ -44,7 +43,7 @@
   position: absolute;
   background-color: @scrollbar-track-color;
   user-select: none;
-  opacity: 0;
+  // opacity: 0;
   transition: opacity 0.6s ease;
   border-radius: 4px;
 
@@ -62,7 +61,6 @@
       top: 0;
       left: 0;
       width: 100%;
-      min-height: @scrollbar-thumb-min-size;
     }
   }
 
@@ -76,13 +74,12 @@
       top: 0;
       left: 0;
       height: 100%;
-      min-width: @scrollbar-thumb-min-size;
     }
   }
 }
 
 .m-scrollbar-track-hidden {
-  display: none;
+  display: none !important;
 }
 
 .m-scrollbar-thumb {
