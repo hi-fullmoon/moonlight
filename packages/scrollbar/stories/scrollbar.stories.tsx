@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import type { Meta } from '@storybook/react';
 import { ResizableBox } from 'react-resizable';
-import { Scrollbar, ScrollbarRef } from '../src/scrollbar/Scrollbar';
+import { Scrollbar, ScrollbarRef } from '../src/Scrollbar';
 import 'react-resizable/css/styles.css';
 
 const meta = {
