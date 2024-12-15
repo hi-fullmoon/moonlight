@@ -1,5 +1,5 @@
 {
-  "name": "@repeat-z/react-scrollbar",
+  "name": "@repeat-z/scrollbar",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
